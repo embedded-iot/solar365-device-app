@@ -9,8 +9,10 @@
   "author": "Avanthika",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
     "express": "^4.16.4",
     "http": "0.0.0",
+    "network-list": "^1.1.5",
     "socket.io": "^2.2.0",
     "websocket": "^1.0.28"
   }
