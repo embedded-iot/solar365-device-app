@@ -3,6 +3,9 @@ const getUniqueID = () => {
   return s4() + s4() + '-' + s4();
 };
 
+const isUndefinedOrNull = (value) => value === undefined || value === null;
+
 module.exports = {
-  getUniqueID
+  getUniqueID,
+  isUndefinedOrNull
 }

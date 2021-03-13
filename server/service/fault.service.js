@@ -1,22 +1,22 @@
 const { file, http } = require('../utils');
 const globalConfig = require('../config/global')
 
-const fileName = 'device.json';
+const fileName = 'fault.json';
 
-const getDeviceData = async () => {
+const getFaultData = async () => {
   return await file.readJSONFile(fileName);
 };
 
-const saveDeviceData = async (deviceData = {}) => {
+const saveFaultData = async (faultData = {}) => {
   const res = await http.getAsyncWithConfig(globalConfig.SERVER_API);
   // console.log(res)
-  deviceData.updateAt = new Date();
-  await file.writeJSONFile(fileName, deviceData);
+  faultData.updateAt = new Date();
+  await file.writeJSONFile(fileName, faultData);
 };
 
 module.exports = {
-  getDeviceData,
-  saveDeviceData
+  getFaultData,
+  saveFaultData
 }
 
 
