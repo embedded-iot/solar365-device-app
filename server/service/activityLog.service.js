@@ -1,6 +1,6 @@
 const { file, http } = require('../utils');
 const globalConfig = require('../config/global');
-const { actionTypes } = require('../middlewares/master');
+const { actionTypes, alertTypes } = require('../middlewares/master');
 
 const fileName = 'activityLog.json';
 
@@ -8,16 +8,15 @@ const getActivityLogData = async () => {
   return await file.readJSONFile(fileName);
 };
 
-const saveActivityLogData = async (deviceData = {}) => {
+const saveActivityLogData = async (activityLogData = {}) => {
   const res = await http.getAsyncWithConfig(globalConfig.SERVER_API);
   // console.log(res)
-  deviceData.updateAt = new Date();
-  await file.writeJSONFile(fileName, deviceData);
+  await file.writeJSONFile(fileName, activityLogData);
 };
 
-const pushActivityLog = async (activityLog = {}) => {
-  if (!activityLog.type || !activityLog.event) {
-    console.log('the activity log must has type and event field.')
+const pushActivityLog = async ({ category = '', type = '', description = '', details = {} } = {}) => {
+  if (!category) {
+    console.log('the activity log must has category field.')
     return;
   }
 
@@ -25,18 +24,31 @@ const pushActivityLog = async (activityLog = {}) => {
   if (!activityLogData.list) {
     activityLogData.list = [];
   }
-  activityLog.service = actionTypes.ACTIVITY_LOG;
-  activityLogData.list = [...activityLogData.list, {
-    ...activityLog,
+  activityLogData.service = actionTypes.ACTIVITY_LOG;
+  activityLogData.list = [{
+    category,
+    description,
     updateAt: new Date()
-  }]
+  }, ...activityLogData.list]
 
-  await saveActivityLogData()
+  await saveActivityLogData(activityLogData);
+}
+
+const success = async ({ category = '', type = '', description = '', details = {} } = {}) => {
+  await pushActivityLog({ category, description, details, type: alertTypes.SUCCESS })
+}
+const error = async ({ category = '', type = '', description = '', details = {} } = {}) => {
+  await pushActivityLog({ category, description, details, type: alertTypes.ERROR })
+}
+const warning = async ({ category = '', type = '', description = '', details = {} } = {}) => {
+  await pushActivityLog({ category, description, details, type: alertTypes.WARNING })
 }
 
 module.exports = {
   getActivityLogData,
-  pushActivityLog
+  success,
+  error,
+  warning,
 }
 
 

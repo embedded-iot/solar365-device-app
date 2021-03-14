@@ -1,5 +1,11 @@
 const { network } = require('../utils')
 
+const alertTypes = {
+  SUCCESS: 'Success',
+  ERROR: 'Error',
+  WARNING: 'Warning'
+}
+
 const actionTypes = {
   CONNECT: 'connect',
   DEVICE_LIST: 'devicelist',
@@ -10,17 +16,12 @@ const actionTypes = {
   ABOUT: 'about',
 }
 
-const activityLogTypes = {
+const activityLogCategories = {
   MASTERS: 'Master',
   DEVICES: 'Devices',
   DEVICE_LOGS: 'DeviceLogs',
   FAULT: 'Fault',
   ACTIVITY_LOG: 'ActivityLog',
-}
-
-const activityLogEvents = {
-  MASTERS_NOT_FOUND: 'Master not found',
-  MASTERS_CONNECTED: 'Master connected',
 }
 
 const defaultPayload = {
@@ -67,12 +68,12 @@ const faultPayload = ({ token } = {}) => ({
 
 module.exports = {
   findDeviceIPInLocalNetwork,
+  alertTypes,
   actionTypes,
   connectPayload,
   deviceListPayload,
   deviceLogPayload,
   statisticsPayload,
   faultPayload,
-  activityLogTypes,
-  activityLogEvents
+  activityLogCategories,
 }

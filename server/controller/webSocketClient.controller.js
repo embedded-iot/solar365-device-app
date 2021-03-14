@@ -1,9 +1,11 @@
 const WebSocketClient = require('websocket').client;
 const { cui } = require('../utils');
 const { connectPayload, actionTypes, deviceListPayload, deviceLogPayload, statisticsPayload,
-  faultPayload } = require('../middlewares/master');
-const { deviceService, deviceLogService, statisticsService, faultService, aboutService, configService } = require('../service');
+  faultPayload, activityLogCategories  } = require('../middlewares/master');
+const { deviceService, deviceLogService, statisticsService,
+  faultService, aboutService, configService, activityLogService } = require('../service');
 
+const i18n = require('../config/i18n');
 
 let clientConnection = null;
 
@@ -135,8 +137,17 @@ const connect = async () => {
   await configService.saveConfigData(CONFIG_DATA);
   const requestUrl = `ws://${CONFIG_DATA.MASTER_IP}/ws/home/overview`;
   const isConnected = await onConnect(requestUrl);
-  const NEW_CONFIG_DATA = await configService.getConfigData();
-  console.log(NEW_CONFIG_DATA)
+  if (!isConnected) {
+    await activityLogService.error({
+      category: activityLogCategories.MASTERS,
+      description: i18n.MASTERS_NOT_FOUND + ': ' + CONFIG_DATA.MASTER_IP
+    })
+  } else {
+    await activityLogService.success({
+      category: activityLogCategories.MASTERS,
+      description: i18n.MASTERS_UPLOADED_SUCCESS
+    })
+  }
   return isConnected;
 }
 
