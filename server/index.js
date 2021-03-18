@@ -1,4 +1,4 @@
-const { masterServiceController, webSocketClientController } = require('./controller');
+const { webSocketServerController, webSocketClientController } = require('./controller');
 const { configService } = require('./service');
 const  { findDeviceIPInLocalNetwork } = require('./middlewares/master');
 const globalConfig = require('./config/global');
@@ -28,12 +28,12 @@ const masterConnect = async () => {
 
 
 const main = async () => {
-  await masterConnect();
-  setInterval(async () => {
-    await masterConnect();
-  }, globalConfig.CLIENT_CONNECT_INTERVAL);
+  // await masterConnect();
+  // setInterval(async () => {
+  //   await masterConnect();
+  // }, globalConfig.CLIENT_CONNECT_INTERVAL);
 
-
+  await webSocketServerController.start();
 }
 
 main();
