@@ -4,12 +4,12 @@ const configService = require("./config.service");
 
 const fileName = 'device.json';
 
-const updateDevices = async (devicePayload = {}) => {
+const updateDevices = async (deviceData = {}) => {
   const { MasterKey } = await configService.getConfigData();
   const requestUrl = globalConfig.SERVER_API + '/devices/syncRealDevices'
   const data = {
     masterKey: MasterKey,
-    list: devicePayload.list
+    list: deviceData.list
   }
   const res = await http.getPostWithConfig(requestUrl, data);
   if (res && !res.code) {
@@ -24,7 +24,9 @@ const getDeviceData = async () => {
 };
 
 const saveDeviceData = async (deviceData = {}) => {
-  await updateDevices(deviceData);
+  if (deviceData && deviceData.list) {
+    await updateDevices(deviceData);
+  }
   deviceData.updateAt = new Date();
   await file.writeJSONFile(fileName, deviceData);
 };
