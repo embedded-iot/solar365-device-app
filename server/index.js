@@ -12,6 +12,9 @@ const masterConnect = async () => {
     console.log('Master finding');
     const masterDevice = await findDeviceIPInLocalNetwork({ vendor: globalConfig.vendor});
     console.log(masterDevice);
+    if (!masterDevice) {
+      return;
+    }
     await configService.saveConfigData({
       ...CONFIG_DATA,
       MASTER_IP: masterDevice.ip,
