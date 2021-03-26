@@ -12,7 +12,7 @@ const updateDevices = async (devicePayload = {}) => {
     list: devicePayload.list
   }
   const res = await http.getPostWithConfig(requestUrl, data);
-  if (res) {
+  if (res && !res.code) {
     console.log("Devices updated success");
   } else {
     console.log("Devices updated fail");
