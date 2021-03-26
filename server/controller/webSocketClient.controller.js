@@ -131,8 +131,8 @@ const onConnect = async (requestUrl) => {
 }
 
 const connect = async () => {
-  console.log('Master connect....')
   const CONFIG_DATA = await configService.getConfigData();
+  console.log('Master connect....', CONFIG_DATA.MASTER_IP)
   CONFIG_DATA.isConnected = false;
   await configService.saveConfigData(CONFIG_DATA);
   const requestUrl = `ws://${CONFIG_DATA.MASTER_IP}/ws/home/overview`;
