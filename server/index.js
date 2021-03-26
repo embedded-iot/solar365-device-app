@@ -28,12 +28,12 @@ const masterConnect = async () => {
 
 
 const main = async () => {
-  // await masterConnect();
-  // setInterval(async () => {
-  //   await masterConnect();
-  // }, globalConfig.CLIENT_CONNECT_INTERVAL);
+  await masterConnect();
+  setInterval(async () => {
+    await masterConnect();
+  }, globalConfig.CLIENT_CONNECT_INTERVAL);
 
-  await webSocketServerController.start();
+  // await webSocketServerController.start();
 }
 
 main();
