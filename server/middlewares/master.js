@@ -10,6 +10,7 @@ const actionTypes = {
   CONNECT: 'connect',
   DEVICE_LIST: 'devicelist',
   DEVICE_LOG: 'real',
+  DEVICE_LOG_IO: 'direct',
   STATISTICS: 'statistics',
   FAULT: 'fault',
   ACTIVITY_LOG: 'activityLog',
@@ -28,9 +29,9 @@ const defaultPayload = {
   lang: 'en_us',
 }
 
-const findDeviceIPInLocalNetwork = async ({ vendor = '' } = {}) => {
+const findDeviceIPInLocalNetwork = async ({ vendor = [] } = {}) => {
   const ips = await network.scanAllIP()
-  return ips.find(IP => IP.alive && IP.vendor && IP.vendor.indexOf(vendor) > -1)
+  return ips.find(IP => IP.alive && IP.vendor && vendor.indexOf(IP.vendor) > -1)
 }
 
 const connectPayload = ({ token } = {}) => ({
@@ -54,6 +55,13 @@ const deviceLogPayload = ({ token, dev_id } = {}) => ({
   dev_id,
 })
 
+const deviceLogIOPayload = ({ token, dev_id } = {}) => ({
+  ...defaultPayload,
+  service: actionTypes.DEVICE_LOG_IO,
+  token,
+  dev_id,
+})
+
 const statisticsPayload = ({ token } = {}) => ({
   ...defaultPayload,
   service: actionTypes.STATISTICS,
@@ -73,6 +81,7 @@ module.exports = {
   connectPayload,
   deviceListPayload,
   deviceLogPayload,
+  deviceLogIOPayload,
   statisticsPayload,
   faultPayload,
   activityLogCategories,

@@ -1,9 +1,10 @@
 const WebSocketClient = require('websocket').client;
 const { cui } = require('../utils');
-const { connectPayload, actionTypes, deviceListPayload, deviceLogPayload, statisticsPayload,
+const { connectPayload, actionTypes, deviceListPayload, deviceLogPayload, deviceLogIOPayload, statisticsPayload,
   faultPayload, activityLogCategories  } = require('../middlewares/master');
 const { deviceService, deviceLogService, statisticsService,
   faultService, aboutService, configService, activityLogService } = require('../service');
+const { delay } = require("../utils");
 
 const i18n = require('../config/i18n');
 
@@ -48,6 +49,12 @@ const controller = async (response) => {
         deviceLogData.list.push(response.result_data);
         await deviceLogService.saveDeviceLogData(deviceLogData);
         break;
+      case actionTypes.DEVICE_LOG_IO:
+        const deviceLogIOData = await deviceLogService.getDeviceLogData();
+        deviceLogIOData.listIO = deviceLogIOData.listIO ? [...deviceLogIOData.listIO] : []
+        deviceLogIOData.listIO.push(response.result_data);
+        await deviceLogService.saveDeviceLogData(deviceLogIOData);
+        break;
       case actionTypes.FAULT:
         await faultService.saveFaultData(response.result_data);
         break;
@@ -75,12 +82,20 @@ const getDeviceLog = async () => {
   const token = CONFIG_DATA.token;
   const deviceData = await deviceService.getDeviceData();
   await deviceLogService.saveDeviceLogData({});
+  console.log(deviceData.list.length);
   if (deviceData.list && deviceData.list.length) {
     for (let i = 0; i < deviceData.list.length; i++) {
       const device = deviceData.list[i];
       const response = await request(deviceLogPayload({ token, dev_id: device.dev_id }));
       response.result_data.deviceId = device.dev_id;
       await controller(response);
+      const responseIO = await request(deviceLogIOPayload({ token, dev_id: device.dev_id }));
+      responseIO.result_data.deviceId = device.dev_id;
+      await controller(responseIO);
+      const deviceLogData = await deviceLogService.getDeviceLogData();
+      await deviceLogService.createDeviceLogData(deviceLogData);
+      // await delay(1000);
+      
     }
   }
 }
