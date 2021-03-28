@@ -1,6 +1,7 @@
 const { file, http } = require('../utils');
 const globalConfig = require('../config/global');
 const configService = require("./config.service");
+const { actionTypes } = require('../middlewares/master');
 
 const fileName = 'device.json';
 
@@ -31,9 +32,24 @@ const saveDeviceData = async (deviceData = {}) => {
   await file.writeJSONFile(fileName, deviceData);
 };
 
+
+const requestDeviceInfo = async (deviceInfoParams = {}) => {
+  const CONFIG_DATA = await configService.getConfigData();
+  const url = CONFIG_DATA.MASTER_API + '/device/getInfo';
+  const config = {
+    params: deviceInfoParams
+  }
+  const res = await http.getAsyncWithConfig(url, config);
+  if (res && res.result_data) {
+    res.result_data.service = actionTypes.DEVICE_INFO;
+  }
+  return res;
+};
+
 module.exports = {
   getDeviceData,
-  saveDeviceData
+  saveDeviceData,
+  requestDeviceInfo
 }
 
 

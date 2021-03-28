@@ -1,7 +1,7 @@
 const WebSocketClient = require('websocket').client;
 const { cui } = require('../utils');
 const { connectPayload, actionTypes, deviceListPayload, deviceLogPayload, deviceLogIOPayload, statisticsPayload,
-  faultPayload, activityLogCategories  } = require('../middlewares/master');
+  faultPayload, statisticDeviceDetailsPayload, deviceInfoPayload, activityLogCategories  } = require('../middlewares/master');
 const { deviceService, deviceLogService, statisticsService,
   faultService, aboutService, configService, activityLogService } = require('../service');
 const { delay } = require("../utils");
@@ -30,6 +30,7 @@ const request = (payload= {}) => {
 
 const controller = async (response) => {
   const CONFIG_DATA = await configService.getConfigData();
+  const token = CONFIG_DATA.token;
   if (response && response.result_code === 1 && response.result_data) {
     switch (response.result_data.service) {
       case actionTypes.CONNECT:
@@ -38,9 +39,12 @@ const controller = async (response) => {
         await configService.saveConfigData(CONFIG_DATA);
         break;
       case actionTypes.STATISTICS:
+        const statisticDeviceDetailsResponse = await request(statisticDeviceDetailsPayload({ token }));
+        response.result_data.list.push(statisticDeviceDetailsResponse.result_data);
         await statisticsService.saveStatisticsData(response.result_data);
         break;
       case actionTypes.DEVICE_LIST:
+        await getDeviceInfo(response.result_data.list);
         await deviceService.saveDeviceData(response.result_data);
         break;
       case actionTypes.DEVICE_LOG:
@@ -76,6 +80,18 @@ const controller = async (response) => {
     }
   }
 };
+
+const getDeviceInfo = async (deviceList) => {
+  const CONFIG_DATA = await configService.getConfigData();
+  const token = CONFIG_DATA.token;
+  if (deviceList && deviceList.length) {
+    for (let i = 0; i < deviceList.length; i++) {
+      const device = deviceList[i];
+      const deviceInfoResponse = await deviceService.requestDeviceInfo(deviceInfoPayload({ token, dev_id: device.dev_id }));
+      device.deviceInfo = deviceInfoResponse.result_data;
+    }
+  }
+}
 
 const getDeviceLog = async () => {
   const CONFIG_DATA = await configService.getConfigData();

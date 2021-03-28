@@ -6,7 +6,7 @@ const fileName = 'fault.json';
 
 const createFault = async (faultData = {}) => {
   const { MasterKey } = await configService.getConfigData();
-  const requestUrl = globalConfig.SERVER_API + '/deviceLogs'
+  const requestUrl = globalConfig.SERVER_API + '/faults'
   const data = {
     masterKey: MasterKey,
     faultData

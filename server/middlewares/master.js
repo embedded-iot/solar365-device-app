@@ -9,9 +9,11 @@ const alertTypes = {
 const actionTypes = {
   CONNECT: 'connect',
   DEVICE_LIST: 'devicelist',
+  DEVICE_INFO: 'deviceInfo',
   DEVICE_LOG: 'real',
   DEVICE_LOG_IO: 'direct',
   STATISTICS: 'statistics',
+  STATISTICS_RUNTIME: 'runtime',
   FAULT: 'fault',
   ACTIVITY_LOG: 'activityLog',
   ABOUT: 'about',
@@ -74,15 +76,31 @@ const faultPayload = ({ token } = {}) => ({
   token,
 })
 
+const statisticDeviceDetailsPayload = ({ token } = {}) => ({
+  ...defaultPayload,
+  service: actionTypes.STATISTICS_RUNTIME,
+  token,
+});
+
+const deviceInfoPayload = ({ token, dev_id } = {}) => ({
+  ...defaultPayload,
+  page: 1,
+  limit: 100,
+  dev_id,
+  token,
+});
+
 module.exports = {
   findDeviceIPInLocalNetwork,
   alertTypes,
   actionTypes,
   connectPayload,
   deviceListPayload,
+  deviceInfoPayload,
   deviceLogPayload,
   deviceLogIOPayload,
   statisticsPayload,
+  statisticDeviceDetailsPayload,
   faultPayload,
   activityLogCategories,
 }
