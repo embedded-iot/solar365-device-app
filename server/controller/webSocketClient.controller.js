@@ -38,10 +38,9 @@ const request = (payload= {}) => {
   return new Promise(((resolve, reject) => {
     clientConnection.on('message', async function(message) {
       if (message.type === 'utf8') {
-        logObj.clientReceiveCount++;
-        console.log("-- Received message");
         try {
           const response = JSON.parse(message.utf8Data);
+          logObj.clientReceiveCount++;
           resolve(response);
         } catch (error) {
           reject({ error })
