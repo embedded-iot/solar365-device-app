@@ -4,19 +4,42 @@ const { connectPayload, actionTypes, deviceListPayload, deviceLogPayload, device
   faultPayload, statisticDeviceDetailsPayload, deviceInfoPayload, activityLogCategories  } = require('../middlewares/master');
 const { deviceService, deviceLogService, statisticsService,
   faultService, aboutService, configService, activityLogService } = require('../service');
+const { pushDebugLog } = require('../service/common/debugLog.service');
 const { delay } = require("../utils");
 
 const i18n = require('../config/i18n');
 
 let clientConnection = null;
 
+let logObj = {
+  connectTotalCount: 0,
+  connectSuccessCount: 0,
+  connectCount: 0,
+  clientSendCount: 0,
+  clientReceiveCount: 0
+}
+
+const resetLog = () => {
+  logObj = {
+    connectCount: 0,
+    clientSendCount: 0,
+    clientReceiveCount: 0
+  }
+}
 
 const request = (payload= {}) => {
-  if (!clientConnection.connected) return ;
+  if (!clientConnection.connected) {
+    console.log("Send fail: the client is not connected")
+    return ;
+  }
   clientConnection.sendUTF(JSON.stringify(payload));
+  logObj.clientSendCount++;
+  console.log("Sent the message: ", JSON.stringify(payload));
   return new Promise(((resolve, reject) => {
     clientConnection.on('message', async function(message) {
       if (message.type === 'utf8') {
+        logObj.clientReceiveCount++;
+        console.log("-- Received message");
         try {
           const response = JSON.parse(message.utf8Data);
           resolve(response);
@@ -77,7 +100,15 @@ const controller = async (response) => {
           ...response.result_data
         });
         break;
+      default:
+        console.log("[Data parse fail]");
+        await pushDebugLog("Data parse fail");
+        await pushDebugLog(JSON.stringify(response));
     }
+  } else {
+    console.log("[Invalid Response]");
+    await pushDebugLog("Invalid Response");
+    await pushDebugLog(JSON.stringify(response));
   }
 };
 
@@ -111,7 +142,7 @@ const getDeviceLog = async () => {
       const deviceLogData = await deviceLogService.getDeviceLogData();
       await deviceLogService.createDeviceLogData(deviceLogData);
       // await delay(1000);
-      
+
     }
   }
 }
@@ -163,10 +194,12 @@ const onConnect = async (requestUrl) => {
 
 const connect = async () => {
   const CONFIG_DATA = await configService.getConfigData();
-  console.log('Master connect....', CONFIG_DATA.MASTER_IP)
+  console.log('Master connect....', CONFIG_DATA.MASTER_IP);
   CONFIG_DATA.isConnected = false;
   await configService.saveConfigData(CONFIG_DATA);
   const requestUrl = `ws://${CONFIG_DATA.MASTER_IP}/ws/home/overview`;
+  resetLog();
+  logObj.connectTotalCount++;
   const isConnected = await onConnect(requestUrl);
   if (!isConnected) {
     await activityLogService.error({
@@ -174,11 +207,14 @@ const connect = async () => {
       description: i18n.MASTERS_NOT_FOUND + ': ' + CONFIG_DATA.MASTER_IP
     })
   } else {
+    logObj.connectSuccessCount++;
     await activityLogService.success({
       category: activityLogCategories.MASTERS,
       description: i18n.MASTERS_UPLOADED_SUCCESS
     })
   }
+  console.log("LOG: ", JSON.stringify(logObj));
+  await pushDebugLog(JSON.stringify(logObj));
   return isConnected;
 }
 

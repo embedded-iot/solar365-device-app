@@ -17,6 +17,20 @@ const writeFile = (filePath = '', data = '') => {
   })
 }
 
+const writeAppendFile = (filePath = '', data = '') => {
+  if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
+  }
+  return new Promise((resolve, reject) => {
+    fs.appendFile(path.resolve(dir, filePath), data, (err) => {
+      if (err) {
+        reject(err)
+      }
+      resolve(true)
+    })
+  })
+}
+
 const readFile = (filePath = '') => {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, "utf-8", (err, data) => {
@@ -51,7 +65,18 @@ const writeJSONFile = async (fileName = '', jsonObj = {}) => {
   }
 }
 
+
+const writeTextFile = async (fileName = '', str = '') => {
+  try {
+    const filePath = path.resolve(__dirname, '../data', fileName);
+    await writeAppendFile(filePath, str)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 module.exports = {
   readJSONFile,
-  writeJSONFile
+  writeJSONFile,
+  writeTextFile,
 }
