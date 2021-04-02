@@ -34,7 +34,6 @@ const request = (payload= {}) => {
   }
   clientConnection.sendUTF(JSON.stringify(payload));
   logObj.clientSendCount++;
-  console.log("Sent the message: ", JSON.stringify(payload));
   return new Promise(((resolve, reject) => {
     clientConnection.on('message', async function(message) {
       if (message.type === 'utf8') {
