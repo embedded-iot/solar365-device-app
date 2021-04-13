@@ -31,6 +31,13 @@ const masterConnect = async () => {
 
 
 const main = async () => {
+  process.logObj = {
+    connectTotalCount: 0,
+    connectSuccessCount: 0,
+    connectFailCount: 0,
+    clientSendCount: 0,
+    clientReceiveCount: 0
+  };
   await masterConnect();
   setInterval(async () => {
     await masterConnect();

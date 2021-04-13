@@ -11,35 +11,22 @@ const i18n = require('../config/i18n');
 
 let clientConnection = null;
 
-let logObj = {
-  connectTotalCount: 0,
-  connectSuccessCount: 0,
-  connectCount: 0,
-  clientSendCount: 0,
-  clientReceiveCount: 0
-}
-
-const resetLog = () => {
-  logObj = {
-    connectCount: 0,
-    clientSendCount: 0,
-    clientReceiveCount: 0
-  }
-}
-
 const request = (payload= {}) => {
   if (!clientConnection.connected) {
     console.log("Send fail: the client is not connected")
     return ;
   }
   clientConnection.sendUTF(JSON.stringify(payload));
-  logObj.clientSendCount++;
+  console.log(JSON.stringify(payload))
+  process.logObj.clientSendCount++;
+
   return new Promise(((resolve, reject) => {
     clientConnection.on('message', async function(message) {
       if (message.type === 'utf8') {
         try {
+          // console.log(message.utf8Data)
           const response = JSON.parse(message.utf8Data);
-          logObj.clientReceiveCount++;
+          process.logObj.clientReceiveCount++;
           resolve(response);
         } catch (error) {
           reject({ error })
@@ -103,10 +90,9 @@ const controller = async (response) => {
         await pushDebugLog("Data parse fail");
         await pushDebugLog(JSON.stringify(response));
     }
-  } else {
-    console.log("[Invalid Response]");
-    await pushDebugLog("Invalid Response");
-    await pushDebugLog(JSON.stringify(response));
+  } else if (response) {
+    console.log("[Invalid Response]", JSON.stringify(response));
+    await pushDebugLog("Invalid Response" + JSON.stringify(response));
   }
 };
 
@@ -117,7 +103,7 @@ const getDeviceInfo = async (deviceList) => {
     for (let i = 0; i < deviceList.length; i++) {
       const device = deviceList[i];
       const deviceInfoResponse = await deviceService.requestDeviceInfo(deviceInfoPayload({ token, dev_id: device.dev_id }));
-      device.deviceInfo = deviceInfoResponse.result_data;
+      device.deviceInfo = deviceInfoResponse && deviceInfoResponse.result_data || null;
     }
   }
 }
@@ -133,9 +119,11 @@ const getDeviceLog = async () => {
       const device = deviceData.list[i];
       const response = await request(deviceLogPayload({ token, dev_id: device.dev_id }));
       response.result_data.deviceId = device.dev_id;
+      console.log(response)
       await controller(response);
       const responseIO = await request(deviceLogIOPayload({ token, dev_id: device.dev_id }));
       responseIO.result_data.deviceId = device.dev_id;
+      console.log(responseIO)
       await controller(responseIO);
       const deviceLogData = await deviceLogService.getDeviceLogData();
       await deviceLogService.createDeviceLogData(deviceLogData);
@@ -167,6 +155,7 @@ const onConnect = async (requestUrl) => {
       clientConnection = connection;
 
       const loginResponse = await request(connectPayload({ token: cui.getUniqueID() }));
+      console.log(loginResponse)
       await controller(loginResponse);
 
       const CONFIG_DATA = await configService.getConfigData();
@@ -177,12 +166,15 @@ const onConnect = async (requestUrl) => {
         const aboutResponse = await aboutService.requestAbout( { token, lang: 'en_us' });
         await controller(aboutResponse);
         const statisticsResponse = await request(statisticsPayload({ token }));
+        console.log(statisticsResponse)
         await controller(statisticsResponse);
         const deviceResponse = await request(deviceListPayload({ token }));
+        console.log(deviceResponse)
         await controller(deviceResponse);
         await getDeviceLog();
         await deviceLogService.getDeviceLogData();
         const faultResponse = await request(faultPayload({ token }));
+        console.log(faultResponse)
         await controller(faultResponse);
       }
       resolve(true)
@@ -196,23 +188,23 @@ const connect = async () => {
   CONFIG_DATA.isConnected = false;
   await configService.saveConfigData(CONFIG_DATA);
   const requestUrl = `ws://${CONFIG_DATA.MASTER_IP}/ws/home/overview`;
-  resetLog();
-  logObj.connectTotalCount++;
+  process.logObj.connectTotalCount++;
   const isConnected = await onConnect(requestUrl);
   if (!isConnected) {
+    process.logObj.connectFailCount++;
     await activityLogService.error({
       category: activityLogCategories.MASTERS,
       description: i18n.MASTERS_NOT_FOUND + ': ' + CONFIG_DATA.MASTER_IP
     })
   } else {
-    logObj.connectSuccessCount++;
+    process.logObj.connectSuccessCount++;
     await activityLogService.success({
       category: activityLogCategories.MASTERS,
       description: i18n.MASTERS_UPLOADED_SUCCESS
     })
   }
-  console.log("LOG: ", JSON.stringify(logObj));
-  await pushDebugLog(JSON.stringify(logObj));
+  console.log("LOG: ", JSON.stringify(process.logObj));
+  await pushDebugLog(JSON.stringify(process.logObj));
   return isConnected;
 }
 

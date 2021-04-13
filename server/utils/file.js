@@ -22,7 +22,7 @@ const writeAppendFile = (filePath = '', data = '') => {
     fs.mkdirSync(dir);
   }
   return new Promise((resolve, reject) => {
-    fs.appendFile(path.resolve(dir, filePath), data, (err) => {
+    fs.writeFile(path.resolve(dir, filePath), data, (err) => {
       if (err) {
         reject(err)
       }
