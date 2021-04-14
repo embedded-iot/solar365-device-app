@@ -21,6 +21,9 @@ const request = (payload= {}) => {
   process.logObj.clientSendCount++;
 
   return new Promise(((resolve, reject) => {
+    let timeout = setTimeout(() => {
+      reject(null);
+    }, 3000);
     clientConnection.on('message', async function(message) {
       if (message.type === 'utf8') {
         try {
@@ -29,7 +32,10 @@ const request = (payload= {}) => {
           process.logObj.clientReceiveCount++;
           resolve(response);
         } catch (error) {
-          reject({ error })
+          console.log('error', error)
+          reject(null)
+        } finally {
+          clearTimeout(timeout);
         }
       }
     });
@@ -119,11 +125,11 @@ const getDeviceLog = async () => {
       const device = deviceData.list[i];
       const response = await request(deviceLogPayload({ token, dev_id: device.dev_id }));
       response.result_data.deviceId = device.dev_id;
-      console.log(response)
+      // console.log(response)
       await controller(response);
       const responseIO = await request(deviceLogIOPayload({ token, dev_id: device.dev_id }));
       responseIO.result_data.deviceId = device.dev_id;
-      console.log(responseIO)
+      // console.log(responseIO)
       await controller(responseIO);
       const deviceLogData = await deviceLogService.getDeviceLogData();
       await deviceLogService.createDeviceLogData(deviceLogData);
@@ -153,9 +159,13 @@ const onConnect = async (requestUrl) => {
       });
 
       clientConnection = connection;
-
-      const loginResponse = await request(connectPayload({ token: cui.getUniqueID() }));
-      console.log(loginResponse)
+      let loginResponse = null;
+      let countConnect = 3;
+      while (!loginResponse && --countConnect > 0) {
+        loginResponse = await request(connectPayload({ token: cui.getUniqueID() }));
+        await delay(1000);
+      }
+      console.log("loginResponse", loginResponse);
       await controller(loginResponse);
 
       const CONFIG_DATA = await configService.getConfigData();
@@ -166,15 +176,15 @@ const onConnect = async (requestUrl) => {
         const aboutResponse = await aboutService.requestAbout( { token, lang: 'en_us' });
         await controller(aboutResponse);
         const statisticsResponse = await request(statisticsPayload({ token }));
-        console.log(statisticsResponse)
+        // console.log(statisticsResponse)
         await controller(statisticsResponse);
         const deviceResponse = await request(deviceListPayload({ token }));
-        console.log(deviceResponse)
+        // console.log(deviceResponse)
         await controller(deviceResponse);
         await getDeviceLog();
         await deviceLogService.getDeviceLogData();
         const faultResponse = await request(faultPayload({ token }));
-        console.log(faultResponse)
+        // console.log(faultResponse)
         await controller(faultResponse);
       }
       resolve(true)
