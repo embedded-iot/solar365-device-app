@@ -17,11 +17,14 @@ const request = (payload= {}) => {
     return ;
   }
   clientConnection.sendUTF(JSON.stringify(payload));
-  console.log(JSON.stringify(payload))
+  if (payload.service === actionTypes.CONNECT) {
+    console.log(JSON.stringify(payload))
+  }
   process.logObj.clientSendCount++;
 
   return new Promise(((resolve, reject) => {
     let timeout = setTimeout(() => {
+      console.log("-----Timeout Response");
       reject(null);
     }, 3000);
     clientConnection.on('message', async function(message) {
@@ -30,12 +33,12 @@ const request = (payload= {}) => {
           // console.log(message.utf8Data)
           const response = JSON.parse(message.utf8Data);
           process.logObj.clientReceiveCount++;
+          clearTimeout(timeout);
           resolve(response);
         } catch (error) {
           console.log('error', error)
-          reject(null)
-        } finally {
           clearTimeout(timeout);
+          reject(null)
         }
       }
     });
@@ -165,7 +168,7 @@ const onConnect = async (requestUrl) => {
         loginResponse = await request(connectPayload({ token: cui.getUniqueID() }));
         await delay(1000);
       }
-      console.log("loginResponse", loginResponse);
+      console.log("loginResponse", JSON.stringify(loginResponse));
       await controller(loginResponse);
 
       const CONFIG_DATA = await configService.getConfigData();
