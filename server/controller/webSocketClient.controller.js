@@ -25,7 +25,7 @@ const request = (payload= {}) => {
   return new Promise(((resolve, reject) => {
     let timeout = setTimeout(() => {
       console.log("-----Timeout Response");
-      reject(null);
+      resolve(null);
     }, 3000);
     clientConnection.on('message', async function(message) {
       if (message.type === 'utf8') {
@@ -36,11 +36,13 @@ const request = (payload= {}) => {
           resolve(response);
         } catch (error) {
           console.log('error', error)
-          //clearTimeout(timeout);
-          reject(null)
+          resolve(null);
         } finally {
           clearTimeout(timeout);
         }
+      } else {
+        console.log('Invalid message.type')
+        resolve(null);
       }
     });
   }))
@@ -166,12 +168,15 @@ const onConnect = async (requestUrl) => {
       let loginResponse = null;
       let countConnect = 3;
       while (!loginResponse && countConnect > 0) {
-        console.log(countConnect);
         countConnect = countConnect - 1;
         loginResponse = await request(connectPayload({ token: cui.getUniqueID() }));
         await delay(1000);
       }
       console.log("loginResponse", JSON.stringify(loginResponse));
+      if (!loginResponse) {
+        console.log('Connect Timeout');
+        return resolve(false);
+      }
       await controller(loginResponse);
 
       const CONFIG_DATA = await configService.getConfigData();
@@ -205,7 +210,12 @@ const connect = async () => {
   await configService.saveConfigData(CONFIG_DATA);
   const requestUrl = `ws://${CONFIG_DATA.MASTER_IP}/ws/home/overview`;
   process.logObj.connectTotalCount++;
-  const isConnected = await onConnect(requestUrl);
+  let isConnected = false;
+  try {
+    isConnected = await onConnect(requestUrl);
+  } catch (error) {
+    console.log("onConnect: ", error);
+  }
   if (!isConnected) {
     process.logObj.connectFailCount++;
     await activityLogService.error({
