@@ -13,7 +13,7 @@ const createStatistic = async (statisticData = {}) => {
   }
   const res = await http.getPostWithConfig(requestUrl, data);
   if (res && !res.code) {
-    console.log("Statistic created");
+    //console.log("Statistic created");
   } else {
     console.log("Statistic create fail");
   }

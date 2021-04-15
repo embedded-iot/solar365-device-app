@@ -15,7 +15,7 @@ const createDeviceLog = async (deviceLogData = {}, deviceLogIOData = {}) => {
   }
   const res = await http.getPostWithConfig(requestUrl, data);
   if (res && !res.code) {
-    console.log("Device log created");
+    //console.log("Device log created");
   } else {
     console.log("Device log create fail");
   }

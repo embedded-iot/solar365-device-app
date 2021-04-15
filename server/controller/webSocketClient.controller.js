@@ -33,12 +33,13 @@ const request = (payload= {}) => {
           // console.log(message.utf8Data)
           const response = JSON.parse(message.utf8Data);
           process.logObj.clientReceiveCount++;
-          clearTimeout(timeout);
           resolve(response);
         } catch (error) {
           console.log('error', error)
-          clearTimeout(timeout);
+          //clearTimeout(timeout);
           reject(null)
+        } finally {
+          clearTimeout(timeout);
         }
       }
     });
@@ -164,7 +165,9 @@ const onConnect = async (requestUrl) => {
       clientConnection = connection;
       let loginResponse = null;
       let countConnect = 3;
-      while (!loginResponse && --countConnect > 0) {
+      while (!loginResponse && countConnect > 0) {
+        console.log(countConnect);
+        countConnect = countConnect - 1;
         loginResponse = await request(connectPayload({ token: cui.getUniqueID() }));
         await delay(1000);
       }

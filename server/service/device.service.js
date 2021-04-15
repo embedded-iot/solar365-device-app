@@ -14,7 +14,7 @@ const updateDevices = async (deviceData = {}) => {
   }
   const res = await http.getPostWithConfig(requestUrl, data);
   if (res && !res.code) {
-    console.log("Devices updated success");
+   // console.log("Devices updated success");
   } else {
     console.log("Devices updated fail");
   }

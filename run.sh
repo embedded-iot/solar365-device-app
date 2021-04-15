@@ -1,0 +1,1 @@
+git pull && npm run install-server && npm run start

@@ -13,7 +13,7 @@ const createFault = async (faultData = {}) => {
   }
   const res = await http.getPostWithConfig(requestUrl, data);
   if (res && !res.code) {
-    console.log("Fault created");
+    //console.log("Fault created");
   } else {
     console.log("Fault create fail");
   }
@@ -27,7 +27,7 @@ const saveFaultData = async (faultData = {}) => {
   if (faultData && faultData.list && faultData.list.length) {
     await createFault(faultData.list[0])
   } else {
-    console.log("Fault not found");
+    //console.log("Fault not found");
   }
 
   faultData.updateAt = new Date();

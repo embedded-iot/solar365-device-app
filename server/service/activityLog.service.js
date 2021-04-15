@@ -14,7 +14,7 @@ const createActivityLog = async (activityLogData = {}) => {
   }
   const res = await http.getPostWithConfig(requestUrl, data);
   if (res && !res.code) {
-    console.log("ActivityLog created");
+    //console.log("ActivityLog created");
   } else {
     console.log("ActivityLog create fail");
   }
