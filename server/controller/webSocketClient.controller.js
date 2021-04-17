@@ -165,42 +165,45 @@ const onConnect = async (requestUrl) => {
       });
 
       clientConnection = connection;
-      let loginResponse = null;
-      let countConnect = 3;
-      while (!loginResponse && countConnect > 0) {
-        countConnect = countConnect - 1;
-        loginResponse = await request(connectPayload({ token: cui.getUniqueID() }));
-        await delay(1000);
-      }
-      console.log("loginResponse", JSON.stringify(loginResponse));
-      if (!loginResponse) {
-        console.log('Connect Timeout');
-        return resolve(false);
-      }
-      await controller(loginResponse);
-
-      const CONFIG_DATA = await configService.getConfigData();
-      const token = CONFIG_DATA.token;
-      if (token) {
-        const productResponse = await aboutService.requestProduct();
-        await controller(productResponse);
-        const aboutResponse = await aboutService.requestAbout( { token, lang: 'en_us' });
-        await controller(aboutResponse);
-        const statisticsResponse = await request(statisticsPayload({ token }));
-        // console.log(statisticsResponse)
-        await controller(statisticsResponse);
-        const deviceResponse = await request(deviceListPayload({ token }));
-        // console.log(deviceResponse)
-        await controller(deviceResponse);
-        await getDeviceLog();
-        await deviceLogService.getDeviceLogData();
-        const faultResponse = await request(faultPayload({ token }));
-        // console.log(faultResponse)
-        await controller(faultResponse);
-      }
       resolve(true)
     });
   })
+}
+
+const getData = async () => {
+  let loginResponse = null;
+  let countConnect = 3;
+  while (!loginResponse && countConnect > 0) {
+    countConnect = countConnect - 1;
+    loginResponse = await request(connectPayload({ token: cui.getUniqueID() }));
+    await delay(1000);
+  }
+  console.log("loginResponse", JSON.stringify(loginResponse));
+  if (!loginResponse) {
+    console.log('Connect Timeout');
+    return;
+  }
+  await controller(loginResponse);
+
+  const CONFIG_DATA = await configService.getConfigData();
+  const token = CONFIG_DATA.token;
+  if (token) {
+    const productResponse = await aboutService.requestProduct();
+    await controller(productResponse);
+    const aboutResponse = await aboutService.requestAbout( { token, lang: 'en_us' });
+    await controller(aboutResponse);
+    const statisticsResponse = await request(statisticsPayload({ token }));
+    // console.log(statisticsResponse)
+    await controller(statisticsResponse);
+    const deviceResponse = await request(deviceListPayload({ token }));
+    // console.log(deviceResponse)
+    await controller(deviceResponse);
+    await getDeviceLog();
+    await deviceLogService.getDeviceLogData();
+    const faultResponse = await request(faultPayload({ token }));
+    // console.log(faultResponse)
+    await controller(faultResponse);
+  }
 }
 
 const connect = async () => {
@@ -210,12 +213,19 @@ const connect = async () => {
   await configService.saveConfigData(CONFIG_DATA);
   const requestUrl = `ws://${CONFIG_DATA.MASTER_IP}/ws/home/overview`;
   process.logObj.connectTotalCount++;
+
   let isConnected = false;
-  try {
-    isConnected = await onConnect(requestUrl);
-  } catch (error) {
-    console.log("onConnect: ", error);
+
+  if (!clientConnection || !clientConnection.connected) {
+    try {
+      isConnected = await onConnect(requestUrl);
+    } catch (error) {
+      console.log("onConnect: ", error);
+    }
+  } else {
+    isConnected = true;
   }
+
   if (!isConnected) {
     process.logObj.connectFailCount++;
     await activityLogService.error({
@@ -223,6 +233,7 @@ const connect = async () => {
       description: i18n.MASTERS_NOT_FOUND + ': ' + CONFIG_DATA.MASTER_IP
     })
   } else {
+    await getData();
     process.logObj.connectSuccessCount++;
     await activityLogService.success({
       category: activityLogCategories.MASTERS,
