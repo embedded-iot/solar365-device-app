@@ -2,6 +2,7 @@ const { webSocketServerController, webSocketClientController } = require('./cont
 const { configService } = require('./service');
 const  { findDeviceIPInLocalNetwork } = require('./middlewares/master');
 const globalConfig = require('./config/global');
+const { delay } = require('./utils');
 
 let connectCount = 0;
 
@@ -38,10 +39,16 @@ const main = async () => {
     clientSendCount: 0,
     clientReceiveCount: 0
   };
-  await masterConnect();
-  setInterval(async () => {
+  
+  let run = true;
+
+  while (run) {
     await masterConnect();
-  }, globalConfig.CLIENT_CONNECT_INTERVAL);
+    await delay(globalConfig.CLIENT_CONNECT_INTERVAL);
+  }
+  // setInterval(async () => {
+  //   await masterConnect();
+  // }, globalConfig.CLIENT_CONNECT_INTERVAL);
 
   // await webSocketServerController.start();
 }
