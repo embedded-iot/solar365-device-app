@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import { w3cwebsocket as W3CWebSocket } from "websocket";
+
 import Identicon from 'react-identicons';
 import {
   UncontrolledTooltip
 } from 'reactstrap';
 import Editor from 'react-medium-editor';
-import LoginPage from "../Login";
+import { WebSocketClient } from "../Utils";
+import { ACTION_TYPES } from "../../components/constants";
 
 
-const client = new W3CWebSocket('ws://127.0.0.1:8000');
 const contentDefaultMessage = "Start writing your document here";
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       currentUsers: [],
       userActivity: [],
@@ -22,52 +23,13 @@ class Dashboard extends Component {
     };
   }
 
-  logInUser = () => {
-    const username = this.username.value;
-    if (username.trim()) {
-      const data = {
-        username
-      };
-      this.setState({
-        ...data
-      }, () => {
-        client.send(JSON.stringify({
-          ...data,
-          type: "userevent"
-        }));
-      });
-    }
-  }
-
-  /* When content changes, we send the
-current content of the editor to the server. */
-  onEditorStateChange = (text) => {
-    client.send(JSON.stringify({
-      type: "contentchange",
-      username: this.state.username,
-      content: text
-    }));
-  };
-
   componentDidMount() {
-    client.onopen = () => {
-      console.log('WebSocket Client Connected');
-    };
-    client.onmessage = (message) => {
-      const dataFromServer = JSON.parse(message.data);
-      const stateToChange = {};
-      if (dataFromServer.type === "userevent") {
-        stateToChange.currentUsers = Object.values(dataFromServer.data.users);
-        stateToChange.userActivity = dataFromServer.data.userActivity;
-      } else if (dataFromServer.type === "contentchange") {
-        stateToChange.text = dataFromServer.data.editorContent || contentDefaultMessage;
-        stateToChange.userActivity = dataFromServer.data.userActivity;
+    WebSocketClient.receivedMessage((response) => {
+      console.log(response);
+      if (response.type === ACTION_TYPES.REQUEST_LOGIN) {
+        console.log('REQUEST_LOGIN');
       }
-
-      this.setState({
-        ...stateToChange
-      });
-    };
+    });
   }
 
   showEditorSection = () => (
@@ -112,8 +74,8 @@ current content of the editor to the server. */
       <React.Fragment>
 
         <div className="container-fluid">
-          { this.showEditorSection() }
-          {username ? this.showEditorSection() : <LoginPage logInUser={this.logInUser} />}
+          asdasdasd
+          {this.showEditorSection()}
         </div>
       </React.Fragment>
     );
