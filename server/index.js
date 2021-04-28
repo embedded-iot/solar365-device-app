@@ -32,6 +32,7 @@ const masterConnect = async () => {
 
 
 const main = async () => {
+  await webSocketServerController.start();
   process.logObj = {
     connectTotalCount: 0,
     connectSuccessCount: 0,
@@ -50,7 +51,7 @@ const main = async () => {
   //   await masterConnect();
   // }, globalConfig.CLIENT_CONNECT_INTERVAL);
 
-  // await webSocketServerController.start();
+
 }
 
 main();
