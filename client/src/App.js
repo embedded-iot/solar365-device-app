@@ -1,18 +1,20 @@
 import React from 'react';
 import 'medium-editor/dist/css/medium-editor.css';
 import 'medium-editor/dist/css/themes/default.css';
-import './App.css';
+
 
 import { Container } from 'reactstrap';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route
+  Switch
 } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Dashboard from "./containers/Dashboard";
 import LoginPage from "./containers/LoginPage";
 import {globalConfig} from "./containers/Utils";
+
+import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
+import './App.scss';
 
 const PrivateRouter = (props) => {
   const CONFIG_BACKEND = globalConfig.getConfigBackend();

@@ -16,6 +16,9 @@ class LoginPage extends React.PureComponent {
   }
 
   componentDidMount() {
+    globalConfig.setConfigBackend({ isLogined: true });
+    this.props.history.push('/home');
+
     WebSocketClient.receivedMessage((response) => {
       if (response && response.isLogined) {
         this.props.history.push('/home');
@@ -24,9 +27,6 @@ class LoginPage extends React.PureComponent {
   }
 
   login = () => {
-    globalConfig.setConfigBackend({ isLogined: true });
-    this.props.history.push('/home');
-    return;
     const { userName, password } = this.state;
     WebSocketClient.sendMessage({
       type: ACTION_TYPES.REQUEST_LOGIN,
