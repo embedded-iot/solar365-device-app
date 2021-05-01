@@ -6,9 +6,25 @@ body {
   //-moz-osx-font-smoothing: grayscale;
 }
 
-.container {
-  padding-top: 50px;
+
+.app {
+  display: flex;
+  min-height: 100vh;
+
+  &__sidebar {
+    flex: 0 0 240px;
+    background-color: #2a2a2a;
+  }
+
+  &__content {
+    flex: 1;
+    padding: 40px;
+  }
 }
+
+//.container {
+//  padding-top: 50px;
+//}
 
 .page-header {
   font-size: 25px;

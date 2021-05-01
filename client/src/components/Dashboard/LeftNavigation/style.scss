@@ -1,0 +1,34 @@
+.menu {
+  padding: 0;
+  position: fixed;
+  top: 58px;
+  width: 240px;
+
+  &__item {
+    list-style-type: none;
+    transition: 200ms;
+
+    &:hover {
+      background-color: darken(lightblue, 20%);
+    }
+
+    a {
+      border-left: 4px solid #2a2a2a;
+      color: lighten(red, 20%);
+      text-decoration: none;
+      padding: 6px 20px;
+      display: block;
+
+      &:hover {
+        color: lighten(red, 10%);
+        text-decoration: underline;
+      }
+
+      &.active {
+        color: white;
+        border-left: 4px solid red;
+        background: #55555b;
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from "react-router";
 import {FormattedMessage} from 'react-intl';
 import { WebSocketClient } from "../Utils";
 import { ACTION_TYPES } from "../../components/constants";
@@ -35,7 +36,7 @@ class Dashboard extends Component {
   }
 
   viewDetailsPage = (router) => {
-
+    this.props.history.push(router);
   }
 
   render() {
@@ -119,4 +120,4 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+export default withRouter(Dashboard);

@@ -3,6 +3,8 @@ import { Navbar, NavbarBrand } from "reactstrap";
 
 import { languageContext } from "../Wrapper";
 
+import "./style.scss";
+
 
 const Header = () => {
   const context = useContext(languageContext);
