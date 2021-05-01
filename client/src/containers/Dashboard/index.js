@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router";
 import {FormattedMessage} from 'react-intl';
-import { WebSocketClient } from "../Utils";
+import { WebSocketClient } from "../../Utils";
 import { ACTION_TYPES } from "../../components/constants";
 
 import MasterStatus from "../../components/Dashboard/MasterStatus";

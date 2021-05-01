@@ -11,7 +11,7 @@ import { Redirect, Route, withRouter } from "react-router";
 import Header from "./components/Header/Header";
 import Dashboard from "./containers/Dashboard";
 import LoginPage from "./containers/LoginPage";
-import { globalConfig } from "./containers/Utils";
+import { globalConfig } from "./Utils";
 import LeftNavigation from "./components/Dashboard/LeftNavigation";
 
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'

@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router";
-import {globalConfig, WebSocketClient} from "../Utils";
+import {globalConfig, WebSocketClient} from "../../Utils";
 
 import { ACTION_TYPES } from "../../components/constants";
 import Identicon from 'react-identicons';
