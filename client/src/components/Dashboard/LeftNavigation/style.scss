@@ -3,14 +3,15 @@
   position: fixed;
   top: 58px;
   width: 240px;
+  margin-top: 10px;
 
   &__item {
     list-style-type: none;
     transition: 200ms;
 
-    &:hover {
-      background-color: darken(lightblue, 20%);
-    }
+    //&:hover {
+    //  background-color: darken(lightblue, 20%);
+    //}
 
     a {
       border-left: 4px solid #2a2a2a;
@@ -20,8 +21,9 @@
       display: block;
 
       &:hover {
-        color: lighten(red, 10%);
+        color: white;
         text-decoration: underline;
+        background: #55555b;
       }
 
       &.active {

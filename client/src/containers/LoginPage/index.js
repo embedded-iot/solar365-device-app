@@ -1,29 +1,38 @@
 import React from "react";
 import { withRouter } from "react-router";
-import {globalConfig, WebSocketClient} from "../../Utils";
+import Identicon from 'react-identicons';
+import { globalConfig, WebSocketClient } from "../../Utils";
 
 import { ACTION_TYPES } from "../../components/constants";
-import Identicon from 'react-identicons';
 
 class LoginPage extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
+      isLogined: true,
       userName: '',
       password: ''
     };
   }
 
   componentDidMount() {
-    globalConfig.setConfigBackend({ isLogined: true });
-    this.props.history.push('/home');
+    if (this.state.isLogined) {
+      this.redirectPage();
+    } else {
+      WebSocketClient.receivedMessage((response) => {
+        if (response && response.isLogined) {
+          this.redirectPage();
+        }
+      });
+    }
+  }
 
-    WebSocketClient.receivedMessage((response) => {
-      if (response && response.isLogined) {
-        this.props.history.push('/home');
-      }
-    });
+  redirectPage = () => {
+    globalConfig.setConfigBackend({ isLogined: true });
+    const { history, location } = this.props;
+    console.log(location.pathname);
+    history.push(location.pathname);
   }
 
   login = () => {

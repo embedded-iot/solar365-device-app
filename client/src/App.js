@@ -8,11 +8,15 @@ import {
 } from "react-router-dom";
 import { Redirect, Route, withRouter } from "react-router";
 
+import { globalConfig } from "./Utils";
+
+import LeftNavigation from "./components/Dashboard/LeftNavigation";
 import Header from "./components/Header/Header";
 import Dashboard from "./containers/Dashboard";
 import LoginPage from "./containers/LoginPage";
-import { globalConfig } from "./Utils";
-import LeftNavigation from "./components/Dashboard/LeftNavigation";
+import Solar365Fault from "./containers/Solar365Fault";
+
+import BackTopWrapper from "./components/BackTopWrapper";
 
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import './App.scss';
@@ -52,7 +56,7 @@ const Routers = withRouter((props) => (
       Logger Fault
     </PrivateRouter>
     <PrivateRouter path="/solar-fault">
-      Solar Fault
+      <Solar365Fault />
     </PrivateRouter>
     {
       props.location && props.location.pathname === '/' && <Redirect to={{ pathname: '/home'}} />
@@ -65,6 +69,7 @@ const App = () => (
     <Router>
       <Header />
       <Routers />
+      <BackTopWrapper />
     </Router>
   </React.Fragment>
 );
