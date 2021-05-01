@@ -1,0 +1,17 @@
+{
+  "VIEW_ALL": "View all",
+  "YIELD": "Yield",
+  "DAILY_YIELD": "Daily Yield",
+  "TOTAL_YIELD": "Total Yield",
+  "POWER": "Power",
+  "REAL_TIME_ACTIVE_POWER": "Real-time Active Power",
+  "ADJUSTABLE_ACTIVE_POWER": "Max.Adjustable Active Power",
+  "DEVICE_STATUS": "Device Status",
+  "OFFLINE_DEVICE": "Offline Device",
+  "ONLINE_DEVICE": "Online Device",
+  "PIECE": "Piece",
+  "FAULT": "Fault",
+  "LOGGER_FAULT": "Logger Fault",
+  "SOLAR_FAULT": "Solar365 Fault",
+  "ERROR": "Error"
+}

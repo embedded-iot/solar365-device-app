@@ -9,9 +9,10 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-identicons": "^1.1.7",
+    "react-intl": "^5.17.2",
     "react-medium-editor": "^1.8.1",
     "react-router": "^5.2.0",
-    "react-router-dom": "^e5.2.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "2.1.8",
     "reactstrap": "^8.0.0",
     "websocket": "^1.0.28"
