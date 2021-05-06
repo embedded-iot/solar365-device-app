@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const dir = path.resolve(__dirname, '../data');
+const dir = path.resolve(__dirname, '../data copy');
 
 const writeFile = (filePath = '', data = '') => {
   if (!fs.existsSync(dir)){

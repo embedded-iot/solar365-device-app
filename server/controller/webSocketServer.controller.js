@@ -50,6 +50,9 @@ const controller = async (userID, requestPayload) => {
       break;
     case actionTypes.ACTIVITY_LOG:
       json.data = await activityLogService.getActivityLogData();
+      break;
+    case actionTypes.FAULT:
+      json.data = await faultService.getFaultData();
 
   }
 
