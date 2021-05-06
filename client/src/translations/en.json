@@ -33,6 +33,11 @@
   "ONLINE_DEVICE": "Online Device",
   "PIECE": "Piece",
   "FAULT": "Fault",
+  "PROMPT": "Prompt",
+  "SUGGEST": "Suggest",
+  "DEVICE_NAME": "Device name",
+  "FAULT_NAME": "Fault name",
+  "FAULT_CODE": "Fault code",
   "LOGGER_FAULT": "Logger Fault",
   "SOLAR_FAULT": "Solar365 Fault"
 }

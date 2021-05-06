@@ -16,6 +16,7 @@ import Header from "./components/Header/Header";
 import Dashboard from "./containers/Dashboard";
 import LoginPage from "./containers/LoginPage";
 import Solar365Fault from "./containers/Solar365Fault";
+import LoggerFault from "./containers/LoggerFault";
 
 import BackTopWrapper from "./components/BackTopWrapper";
 
@@ -24,7 +25,6 @@ import './App.scss';
 
 const PrivateRouter = (props) => {
   const CONFIG_BACKEND = globalConfig.getConfigBackend();
-  console.log(props);
   if (!CONFIG_BACKEND.isLogined) {
     return <LoginPage />;
   }
@@ -45,7 +45,8 @@ const Routers = withRouter((props) => (
     <PrivateRouter path="/home" component={Dashboard} />
     <PrivateRouter path="/statistics" component={Solar365Fault} />
     <PrivateRouter path="/devices" component={Solar365Fault} />
-    <PrivateRouter path="/logger-fault" component={Solar365Fault} />
+    <PrivateRouter path="/logger-fault/filter/:type" component={LoggerFault} />
+    <PrivateRouter path="/logger-fault" component={LoggerFault} />
     <PrivateRouter path="/solar-fault/filter/:type" component={Solar365Fault} />
     <PrivateRouter path="/solar-fault" component={Solar365Fault} />
     {

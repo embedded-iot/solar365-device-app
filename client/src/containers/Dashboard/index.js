@@ -96,7 +96,7 @@ class Dashboard extends Component {
           description: <FormattedMessage id="LOGGER_FAULT" />,
           value: 1,
           unit: <FormattedMessage id="ERROR" />,
-          viewDetail: () => this.viewDetailsPage('logger-fault')
+          viewDetail: () => this.viewDetailsPage('logger-fault/filter/Error')
         },
         {
           description: <FormattedMessage id="SOLAR_FAULT" />,
