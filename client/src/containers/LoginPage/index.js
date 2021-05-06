@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router";
 import Identicon from 'react-identicons';
-import { globalConfig, WebSocketClient } from "../../Utils";
+import { globalConfig, webSocketClient } from "../../Utils";
 
 import { ACTION_TYPES } from "../../components/constants";
 
@@ -20,7 +20,7 @@ class LoginPage extends React.PureComponent {
     if (this.state.isLogined) {
       this.redirectPage();
     } else {
-      WebSocketClient.receivedMessage((response) => {
+      webSocketClient.receivedMessage((response) => {
         if (response && response.isLogined) {
           this.redirectPage();
         }
@@ -37,7 +37,7 @@ class LoginPage extends React.PureComponent {
 
   login = () => {
     const { userName, password } = this.state;
-    WebSocketClient.sendMessage({
+    webSocketClient.sendMessage({
       type: ACTION_TYPES.REQUEST_LOGIN,
       data: {
         userName,

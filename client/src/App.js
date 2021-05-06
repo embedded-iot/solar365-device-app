@@ -4,11 +4,12 @@ import 'medium-editor/dist/css/themes/default.css';
 
 import {
   BrowserRouter as Router,
-  Switch
+  Switch,
+  Route
 } from "react-router-dom";
-import { Redirect, Route, withRouter } from "react-router";
+import { Redirect, withRouter } from "react-router";
 
-import { globalConfig } from "./Utils";
+import { globalConfig, Events } from "./Utils";
 
 import LeftNavigation from "./components/Dashboard/LeftNavigation";
 import Header from "./components/Header/Header";
@@ -23,55 +24,73 @@ import './App.scss';
 
 const PrivateRouter = (props) => {
   const CONFIG_BACKEND = globalConfig.getConfigBackend();
+  console.log(props);
+  if (!CONFIG_BACKEND.isLogined) {
+    return <LoginPage />;
+  }
   return (
-    <Route>
-      {
-        CONFIG_BACKEND.isLogined ? (
-          <div className="app">
-            <div className="app__sidebar">
-              <LeftNavigation />
-            </div>
-            <div className="app__content">
-              { props.children }
-            </div>
-          </div>
-        ) : <LoginPage />
-      }
-    </Route>
+    <div className="app">
+      <div className="app__sidebar">
+        <LeftNavigation />
+      </div>
+      <div className="app__content">
+        <Route path={props.path} component={props.component} />
+      </div>
+    </div>
   );
 };
 
 const Routers = withRouter((props) => (
   <Switch>
-    <PrivateRouter path="/home">
-      <Dashboard />
-    </PrivateRouter>
-    <PrivateRouter path="/statistics">
-      Statistic
-    </PrivateRouter>
-    <PrivateRouter path="/devices">
-      Device
-    </PrivateRouter>
-    <PrivateRouter path="/logger-fault">
-      Logger Fault
-    </PrivateRouter>
-    <PrivateRouter path="/solar-fault">
-      <Solar365Fault />
-    </PrivateRouter>
+    <PrivateRouter path="/home" component={Dashboard} />
+    <PrivateRouter path="/statistics" component={Solar365Fault} />
+    <PrivateRouter path="/devices" component={Solar365Fault} />
+    <PrivateRouter path="/logger-fault" component={Solar365Fault} />
+    <PrivateRouter path="/solar-fault/filter/:type" component={Solar365Fault} />
+    <PrivateRouter path="/solar-fault" component={Solar365Fault} />
     {
       props.location && props.location.pathname === '/' && <Redirect to={{ pathname: '/home'}} />
     }
   </Switch>
 ));
 
-const App = () => (
-  <React.Fragment>
-    <Router>
-      <Header />
-      <Routers />
-      <BackTopWrapper />
-    </Router>
-  </React.Fragment>
-);
+class App extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isConnected: false
+    };
+  }
+
+  componentDidMount() {
+    Events.subscribe("WEBSOCKET_CONNECTED", this.websocketConnected);
+  }
+
+  websocketConnected = () => {
+    this.setState({
+      isConnected: true
+    });
+  }
+
+  componentWillUnmount() {
+    Events.unsubscribe("WEBSOCKET_CONNECTED", this.websocketConnected);
+  }
+
+  render() {
+    const { isConnected } = this.state;
+    if (!isConnected) {
+      return null;
+    }
+    return (
+      <React.Fragment>
+        <Router>
+          <Header />
+          <Routers />
+          <BackTopWrapper />
+        </Router>
+      </React.Fragment>
+    );
+  }
+}
 
 export default App;

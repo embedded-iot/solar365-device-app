@@ -14,6 +14,18 @@
   "DAILY_YIELD": "Daily Yield",
   "TOTAL_YIELD": "Total Yield",
   "POWER": "Power",
+  "DATE": "Date",
+  "DATE_FORMAT": "DD/MM/YYYY - HH:mm",
+  "MASTER": "Master",
+  "DEVICE_LOGS": "Device logs",
+  "ACTIVITY_LOG": "Activity Log",
+  "CATEGORY": "Category",
+  "TYPE": "Type",
+  "SUCCESS": "Success",
+  "ERROR": "Error",
+  "WARNING": "Warning",
+  "DESCRIPTION": "Description",
+  "ALERT_TYPES": "Alert types",
   "REAL_TIME_ACTIVE_POWER": "Real-time Active Power",
   "ADJUSTABLE_ACTIVE_POWER": "Max.Adjustable Active Power",
   "DEVICE_STATUS": "Device Status",
@@ -22,6 +34,5 @@
   "PIECE": "Piece",
   "FAULT": "Fault",
   "LOGGER_FAULT": "Logger Fault",
-  "SOLAR_FAULT": "Solar365 Fault",
-  "ERROR": "Error"
+  "SOLAR_FAULT": "Solar365 Fault"
 }

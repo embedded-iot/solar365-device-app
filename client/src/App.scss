@@ -9,7 +9,7 @@ body {
 
 .app {
   display: flex;
-  min-height: 100vh;
+  min-height: calc(100vh - 58px);
 
   &__sidebar {
     flex: 0 0 240px;
