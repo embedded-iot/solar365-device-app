@@ -47,6 +47,10 @@ const controller = async (userID, requestPayload) => {
     case actionTypes.CONFIG:
       const config = await configService.getConfigData();
       json.data = { config };
+      break;
+    case actionTypes.ACTIVITY_LOG:
+      json.data = await activityLogService.getActivityLogData();
+
   }
 
   sendMessage(JSON.stringify(json));

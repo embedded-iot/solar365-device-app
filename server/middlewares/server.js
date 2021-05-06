@@ -3,7 +3,7 @@ const actionTypes = {
   CONTENT_CHANGE: "contentchange",
   CONFIG: "config",
   ABOUT: "about",
-
+  ACTIVITY_LOG: 'activityLog',
 }
 
 module.exports = {

@@ -33,6 +33,7 @@ const masterConnect = async () => {
 
 const main = async () => {
   await webSocketServerController.start();
+  return;
   process.logObj = {
     connectTotalCount: 0,
     connectSuccessCount: 0,
@@ -40,7 +41,7 @@ const main = async () => {
     clientSendCount: 0,
     clientReceiveCount: 0
   };
-  
+
   let run = true;
 
   while (run) {
