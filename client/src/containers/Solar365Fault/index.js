@@ -7,6 +7,7 @@ import { ACTION_TYPES } from "../../components/constants";
 import { Solar365FaultServices } from "../../components/Solar365Fault/Solar365FaultServices";
 
 import "./style.scss";
+import StatusTag from "../../components/StatusTag";
 
 class Solar365Fault extends React.PureComponent {
 
@@ -40,8 +41,9 @@ class Solar365Fault extends React.PureComponent {
     },
     {
       title: <FormattedMessage id="TYPE" />,
-      dataIndex: 'convertedType',
+      dataIndex: 'type',
       width: '25%',
+      render: type => <StatusTag status={type} />
     },
     {
       title: <FormattedMessage id="CATEGORY" />,

@@ -1,20 +1,16 @@
-import { DateServices } from "../../Utils";
-import { FormattedMessage } from "react-intl";
 import React from "react";
+import { FormattedMessage } from "react-intl";
+import { DateServices } from "../../Utils";
+import { ALERT_TYPES, I18N_ALERT_TYPES } from "../constants";
 
 const CATEGORIES = {
   MASTERS: 'Master',
   DEVICES: 'Devices',
   DEVICE_LOGS: 'DeviceLogs',
   FAULT: 'Fault',
-  ACTIVITY_LOG: 'ActivityLog',
+  ACTIVITY_LOG: 'ActivityLog'
 };
 
-const ALERT_TYPES = {
-  SUCCESS: 'Success',
-  ERROR: 'Error',
-  WARNING: 'Warning'
-};
 
 const I18N_CATEGORIES = {
   [CATEGORIES.MASTERS]: <FormattedMessage id="MASTER" />,
@@ -24,18 +20,11 @@ const I18N_CATEGORIES = {
   [CATEGORIES.ACTIVITY_LOG]: <FormattedMessage id="ACTIVITY_LOG" />
 };
 
-const I18N_ALERT_TYPES = {
-  [ALERT_TYPES.SUCCESS]: <FormattedMessage id="SUCCESS" />,
-  [ALERT_TYPES.ERROR]: <FormattedMessage id="ERROR" />,
-  [ALERT_TYPES.WARNING]: <FormattedMessage id="WARNING" />,
-};
-
 const transformSolar365FaultList = (activityLog, index) => {
   activityLog.key = index;
   // eslint-disable-next-line no-undef
   activityLog.convertedDate = DateServices.convert(activityLog.updateAt, i18n.DATE_FORMAT);
   activityLog.convertedCategory = I18N_CATEGORIES[activityLog.category] || '-';
-  activityLog.convertedType = I18N_ALERT_TYPES[activityLog.type] || '-';
   return activityLog;
 };
 
@@ -51,5 +40,5 @@ const ALERT_TYPES_OPTIONS = [
 
 export const Solar365FaultServices = {
   transformSolar365FaultList,
-  ALERT_TYPES_OPTIONS,
+  ALERT_TYPES_OPTIONS
 };

@@ -35,6 +35,11 @@
   "FAULT": "Fault",
   "PROMPT": "Nhắc nhở",
   "SUGGEST": "Khuyến nghị",
+  "DEVICE_NAME": "Device name",
+  "FAULT_NAME": "Fault name",
+  "FAULT_CODE": "Fault code",
+  "REASON": "Nguyên nhân",
+  "DEVICE_ID": "Device ID",
   "LOGGER_FAULT": "Logger Fault",
   "SOLAR_FAULT": "Solar365 Fault"
 }

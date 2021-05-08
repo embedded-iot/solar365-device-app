@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^4.15.3",
+    "html-react-parser": "^1.2.6",
     "medium-editor": "^5.23.3",
     "node-sass": "^4.14.1",
     "react": "^16.8.6",

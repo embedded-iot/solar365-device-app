@@ -38,6 +38,8 @@
   "DEVICE_NAME": "Device name",
   "FAULT_NAME": "Fault name",
   "FAULT_CODE": "Fault code",
+  "REASON": "Reason",
+  "DEVICE_ID": "Device ID",
   "LOGGER_FAULT": "Logger Fault",
   "SOLAR_FAULT": "Solar365 Fault"
 }

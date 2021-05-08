@@ -1,7 +1,9 @@
 import React from "react";
+import parse from 'html-react-parser';
 import { FormattedMessage } from "react-intl";
 import TableWrapper from "../../components/TableWrapper";
 import CheckboxGroup from "../../components/CheckboxGroup";
+import StatusTag from "../../components/StatusTag";
 import { webSocketClient } from "../../Utils";
 import { ACTION_TYPES } from "../../components/constants";
 import { LoggerFaultServices } from "../../components/LoggerFault/LoggerFaultServices";
@@ -42,13 +44,14 @@ class LoggerFault extends React.PureComponent {
     },
     {
       title: <FormattedMessage id="TYPE" />,
-      dataIndex: 'convertedType',
+      dataIndex: 'type',
       width: '15%',
+      render: type => <StatusTag status={type} />
     },
     {
-      title: <FormattedMessage id="FAULT_CODE" />,
-      dataIndex: 'fault_code',
-      width: '15%',
+      title: <FormattedMessage id="DEVICE_ID" />,
+      dataIndex: 'dev_id',
+      width: '10%',
     },
     {
       title: <FormattedMessage id="DEVICE_NAME" />,
@@ -57,6 +60,11 @@ class LoggerFault extends React.PureComponent {
     }, {
       title: <FormattedMessage id="FAULT_NAME" />,
       dataIndex: 'fault_name_i18n',
+      width: '15%',
+    }, {
+      title: <FormattedMessage id="REASON" />,
+      dataIndex: 'fault_reason_i18n',
+      render: reasonText => parse(reasonText)
     },
   ];
 
