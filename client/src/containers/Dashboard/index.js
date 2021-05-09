@@ -80,12 +80,14 @@ class Dashboard extends Component {
           description: <FormattedMessage id="OFFLINE_DEVICE" />,
           value: 1,
           unit: <FormattedMessage id="PIECE" />,
-          important: true
+          important: true,
+          viewDetail: () => this.viewDetailsPage('devices/filter/Offline')
         },
         {
           description: <FormattedMessage id="ONLINE_DEVICE" />,
           value: 25,
-          unit: <FormattedMessage id="PIECE" />
+          unit: <FormattedMessage id="PIECE" />,
+          viewDetail: () => this.viewDetailsPage('devices/filter/Online')
         }
       ]
     }, {

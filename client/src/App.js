@@ -13,12 +13,14 @@ import { globalConfig, Events } from "./Utils";
 
 import LeftNavigation from "./components/Dashboard/LeftNavigation";
 import Header from "./components/Header/Header";
+import BackTopWrapper from "./components/BackTopWrapper";
+
 import Dashboard from "./containers/Dashboard";
 import LoginPage from "./containers/LoginPage";
 import Solar365Fault from "./containers/Solar365Fault";
 import LoggerFault from "./containers/LoggerFault";
+import DevicesPage from "./containers/DevicesPage";
 
-import BackTopWrapper from "./components/BackTopWrapper";
 
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import './App.scss';
@@ -44,7 +46,8 @@ const Routers = withRouter((props) => (
   <Switch>
     <PrivateRouter path="/home" component={Dashboard} />
     <PrivateRouter path="/statistics" component={Solar365Fault} />
-    <PrivateRouter path="/devices" component={Solar365Fault} />
+    <PrivateRouter path="/devices/filter/:type" component={DevicesPage} />
+    <PrivateRouter path="/devices" component={DevicesPage} />
     <PrivateRouter path="/logger-fault/filter/:type" component={LoggerFault} />
     <PrivateRouter path="/logger-fault" component={LoggerFault} />
     <PrivateRouter path="/solar-fault/filter/:type" component={Solar365Fault} />
