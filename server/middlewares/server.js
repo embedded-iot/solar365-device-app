@@ -1,4 +1,5 @@
 const actionTypes = {
+  OVERVIEW: "Overview",
   USER_EVENT: "userevent",
   CONTENT_CHANGE: "contentchange",
   CONFIG: "config",

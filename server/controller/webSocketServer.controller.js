@@ -44,9 +44,19 @@ const controller = async (userID, requestPayload) => {
       editorContent = requestPayload.content;
       json.data = { editorContent, userActivity };
       break;
-    case actionTypes.CONFIG:
+    case actionTypes.OVERVIEW:
       const config = await configService.getConfigData();
-      json.data = { config };
+      const statistics = await statisticsService.getStatisticsData();
+      const statisticsData = statistics && statistics.list && statistics.list.length > 0 && { ...statistics.list[0], ...statistics.list[1] } || {}
+      const loggerFault = await faultService.getFaultData();
+      const solar365Fault = await activityLogService.getActivityLogData();
+      const deviceList = await deviceService.getDeviceData();
+      json.data = {
+        ...config,
+        ...statisticsData,
+        devicesCount: deviceList.count || 0,
+        loggerFaultCount: (loggerFault && loggerFault.count) || 0,
+        solar365FaultCount: (solar365Fault.list && solar365Fault.list.length) || 0}
       break;
     case actionTypes.ACTIVITY_LOG:
       json.data = await activityLogService.getActivityLogData();
