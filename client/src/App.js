@@ -21,6 +21,7 @@ import Solar365Fault from "./containers/Solar365Fault";
 import LoggerFault from "./containers/LoggerFault";
 import DevicesPage from "./containers/DevicesPage";
 import DeviceDetailsPage from "./containers/DeviceDetailsPage";
+import StatisticsPage from "./containers/StatisticsPage";
 
 
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
@@ -46,7 +47,7 @@ const PrivateRouter = (props) => {
 const Routers = withRouter((props) => (
   <Switch>
     <PrivateRouter path="/home" component={Dashboard} />
-    <PrivateRouter path="/statistics" component={Solar365Fault} />
+    <PrivateRouter path="/statistics" component={StatisticsPage} />
     <PrivateRouter path="/devices/details/:deviceId/:tab/:deviceName" component={DeviceDetailsPage} />
     <PrivateRouter path="/devices/filter/:type" component={DevicesPage} />
     <PrivateRouter path="/devices" component={DevicesPage} />

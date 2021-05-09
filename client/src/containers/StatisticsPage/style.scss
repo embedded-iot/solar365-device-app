@@ -1,0 +1,38 @@
+.device-statistics {
+  &__header {
+    margin-bottom: 15px;
+  }
+  &__title {
+    font-weight: bold;
+    margin-right: 10px;
+
+  }
+  &__number {
+    margin-right: 10px;
+  }
+}
+
+.summary-statistics {
+  &__wrapper {
+    display: flex;
+    margin-bottom: 15px;
+    justify-content: space-between;
+  }
+  &__item {
+    flex-basis: 24%;
+    padding: 10px 20px;
+    background: white;
+  }
+  &__item-header {
+    span {
+      margin-right: 7px;
+      &:nth-child(1) {
+        font-weight: bold;
+        font-size: 20px;
+      }
+      &:nth-child(2) {
+        color: #cccccc;
+      }
+    }
+  }
+}
