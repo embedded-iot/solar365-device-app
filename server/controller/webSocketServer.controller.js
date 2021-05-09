@@ -57,6 +57,12 @@ const controller = async (userID, requestPayload) => {
     case actionTypes.DEVICE_LIST:
       json.data = await deviceService.getDeviceData();
       break;
+    case actionTypes.DEVICE_INFO:
+      json.data = await deviceLogService.getDeviceLogData();
+      break;
+    case actionTypes.STATISTICS:
+      json.data = await statisticsService.getStatisticsData();
+      break;
 
   }
 
