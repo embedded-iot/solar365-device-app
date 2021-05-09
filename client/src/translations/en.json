@@ -43,6 +43,14 @@
   "FAULT_CODE": "Fault code",
   "REASON": "Reason",
   "DEVICE_ID": "Device ID",
+  "DEVICE_DETAILS": "Device details",
+  "REALTIME_VALUES": "Realtime Values",
+  "DC_DATA": "DC Data",
+  "PARAMETER_NAME": "Parameter Name",
+  "CURRENT_VALUE_UNIT": "Current Value (Unit)",
+  "NAME": "NAME",
+  "VOLTAGE_V": "Voltage V",
+  "CURRENT_A": "Current A",
   "LOGGER_FAULT": "Logger Fault",
   "SOLAR_FAULT": "Solar365 Fault"
 }

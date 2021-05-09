@@ -1,4 +1,3 @@
-import React from "react";
 import { DEVICE_STATUS_TYPES, I18N_DEVICE_STATUS_TYPES, DEVICE_STATUS_COLORS } from "../constants";
 
 const transformDeviceList = (device, index) => {

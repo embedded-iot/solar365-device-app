@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^4.6.2",
     "antd": "^4.15.3",
     "html-react-parser": "^1.2.6",
     "medium-editor": "^5.23.3",

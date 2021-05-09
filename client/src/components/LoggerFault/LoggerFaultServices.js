@@ -1,4 +1,3 @@
-import React from "react";
 import fault_I18n from "./fault_I18n";
 import faultMapper from "./faultMapper";
 import { DateServices } from "../../Utils";

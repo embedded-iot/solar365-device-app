@@ -1,15 +1,13 @@
 import React from "react";
-import parse from 'html-react-parser';
 import { FormattedMessage } from "react-intl";
+import { Badge } from "antd";
 import TableWrapper from "../../components/TableWrapper";
 import CheckboxGroup from "../../components/CheckboxGroup";
-import StatusTag from "../../components/StatusTag";
 import { webSocketClient } from "../../Utils";
-import { ACTION_TYPES, DEVICE_STATUS_TYPES } from "../../components/constants";
-import { DevicesServices } from "../../components/Devices/DevicesServices";
+import { ACTION_TYPES } from "../../components/constants";
 
+import { DevicesServices } from "../../components/Devices/DevicesServices";
 import "./style.scss";
-import { Badge } from "antd";
 
 class DevicesPage extends React.PureComponent {
 
@@ -45,6 +43,7 @@ class DevicesPage extends React.PureComponent {
       title: <FormattedMessage id="SERIAL_NUMBER" />,
       dataIndex: 'dev_sn',
       width: '20%',
+      render: (dev_sn, device) => <span className="link" onClick={() => this.viewDeviceDetails(device)}>{dev_sn}</span>
     }, {
       title: <FormattedMessage id="DEVICE_NAME" />,
       dataIndex: 'dev_name',
@@ -55,6 +54,10 @@ class DevicesPage extends React.PureComponent {
       render: (convertedStatus, device) => <Badge color={device.statusColor} text={convertedStatus} />
     }
   ];
+
+  viewDeviceDetails = (device) => {
+    this.props.history.push(`devices/details/${device.dev_id}/0/${device.dev_name}`);
+  }
 
   onChangeTypes = (checkedValues) => {
     this.setState({
