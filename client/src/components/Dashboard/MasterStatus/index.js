@@ -4,7 +4,11 @@ import moment from 'moment';
 
 import './style.scss';
 import { FormattedMessage } from "react-intl";
+import { DateServices } from "../../../Utils";
 
+const openLoggerPortal = (url) => {
+  window.open(url, '_blank');
+}
 
 const MasterStatus = (props) => (
   <div className="master-status__wrapper">
@@ -17,12 +21,8 @@ const MasterStatus = (props) => (
       </span>
     </div>
     <div className="master-status__item">
-      <span className="master-status__title"><FormattedMessage id="TOTAL_DEVICES" />:</span>
-      <span className="master-status__value">{props.deviceCount || '-'}</span>
-    </div>
-    <div className="master-status__item">
       <span className="master-status__title">IP:</span>
-      <span className="master-status__value">{props.ip || '-'}</span>
+      <span className="master-status__value">{(props.MASTER_API && <span className="link" onClick={() => openLoggerPortal(props.MASTER_API)}>{props.MASTER_API}</span>) || '-'}</span>
     </div>
     <div className="master-status__item">
       <span className="master-status__title"><FormattedMessage id="REQUEST_DATA_INTERVAL" />:</span>
@@ -30,7 +30,12 @@ const MasterStatus = (props) => (
     </div>
     <div className="master-status__item">
       <span className="master-status__title"><FormattedMessage id="LAST_UPDATED_DATA_TIME" />:</span>
-      <span className="master-status__value">{props.updateAt ? moment(props.updateAt).format('DD MM YYYY - HH:mm') : '-'}</span>
+      {/* eslint-disable-next-line no-undef */}
+      <span className="master-status__value">{props.updateAt ? DateServices.convert(props.updateAt, i18n.DATE_FORMAT) : '-'}</span>
+    </div>
+    <div className="master-status__item">
+      <span className="master-status__title"><FormattedMessage id="TOTAL_DEVICES" />:</span>
+      <span className="master-status__value">{props.devicesCount || '-'}</span>
     </div>
   </div>
 );

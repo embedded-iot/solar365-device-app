@@ -18,20 +18,21 @@ class Dashboard extends Component {
     super(props);
 
     this.state = {
-      currentUsers: [],
-      userActivity: [],
-      username: null,
-      text: ''
+      overviewData: {}
     };
   }
 
   componentDidMount() {
     webSocketClient.receivedMessage((response) => {
-      console.log(response);
-      if (response.type === ACTION_TYPES.REQUEST_LOGIN) {
-        console.log('REQUEST_LOGIN');
+      if (response.type === ACTION_TYPES.OVERVIEW) {
+        console.log(response.data);
+        this.setState({
+          overviewData: response.data
+        });
       }
     });
+
+    webSocketClient.sendMessage({ type: ACTION_TYPES.OVERVIEW });
   }
 
   viewDetailsPage = (router) => {
@@ -39,6 +40,7 @@ class Dashboard extends Component {
   }
 
   render() {
+    const { overviewData } = this.state;
     const statisticsStatus = [{
       title: <FormattedMessage id="YIELD" />,
       icon: powerGeneration,
@@ -46,13 +48,13 @@ class Dashboard extends Component {
       contents: [
         {
           description: <FormattedMessage id="DAILY_YIELD" />,
-          value: 12345,
-          unit: 'kwh'
+          value: overviewData.today_energy,
+          unit: overviewData.today_energy_unit,
         },
         {
           description: <FormattedMessage id="TOTAL_YIELD" />,
-          value: 12345,
-          unit: 'kwh'
+          value: overviewData.total_energy,
+          unit: overviewData.total_energy_unit,
         }
       ]
     }, {
@@ -62,13 +64,13 @@ class Dashboard extends Component {
       contents: [
         {
           description: <FormattedMessage id="REAL_TIME_ACTIVE_POWER" />,
-          value: 12345,
-          unit: 'kW'
+          value: overviewData.curr_power,
+          unit: overviewData.curr_power_unit,
         },
         {
           description: <FormattedMessage id="ADJUSTABLE_ACTIVE_POWER" />,
-          value: 12345,
-          unit: 'kW'
+          value: overviewData.adjust_power_uplimit,
+          unit: overviewData.adjust_power_uplimit_unit,
         }
       ]
     }, {
@@ -78,14 +80,14 @@ class Dashboard extends Component {
       contents: [
         {
           description: <FormattedMessage id="OFFLINE_DEVICE" />,
-          value: 1,
+          value: overviewData.offline_num,
           unit: <FormattedMessage id="PIECE" />,
           important: true,
           viewDetail: () => this.viewDetailsPage('devices/filter/Offline')
         },
         {
           description: <FormattedMessage id="ONLINE_DEVICE" />,
-          value: 25,
+          value: overviewData.online_num,
           unit: <FormattedMessage id="PIECE" />,
           viewDetail: () => this.viewDetailsPage('devices/filter/Online')
         }
@@ -96,13 +98,13 @@ class Dashboard extends Component {
       contents: [
         {
           description: <FormattedMessage id="LOGGER_FAULT" />,
-          value: 1,
+          value: overviewData.loggerFaultCount,
           unit: <FormattedMessage id="ERROR" />,
           viewDetail: () => this.viewDetailsPage('logger-fault/filter/Error')
         },
         {
           description: <FormattedMessage id="SOLAR_FAULT" />,
-          value: 25,
+          value: overviewData.solar365FaultCount,
           unit: <FormattedMessage id="ERROR" />,
           viewDetail: () => this.viewDetailsPage('solar-fault/filter/Error')
         }
@@ -111,9 +113,9 @@ class Dashboard extends Component {
     ];
     return (
       <React.Fragment>
-        <div className="page-header">Logger1000 (B2005121413)</div>
+        <div className="page-header">Logger1000 ({overviewData.DeviceSN || '-'})</div>
         <div className="page-contents">
-          <MasterStatus />
+          <MasterStatus {...overviewData} />
           <StatisticsStatus list={statisticsStatus} />
         </div>
       </React.Fragment>

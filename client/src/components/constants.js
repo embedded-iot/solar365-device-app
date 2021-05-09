@@ -2,6 +2,7 @@ import { FormattedMessage } from "react-intl";
 import React from "react";
 
 const ACTION_TYPES = {
+  OVERVIEW: "Overview",
   REQUEST_LOGIN: 'userevent',
   CONNECT: 'connect',
   DEVICE_LIST: 'devicelist',
