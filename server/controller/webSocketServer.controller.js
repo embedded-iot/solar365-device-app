@@ -53,6 +53,10 @@ const controller = async (userID, requestPayload) => {
       break;
     case actionTypes.FAULT:
       json.data = await faultService.getFaultData();
+      break;
+    case actionTypes.DEVICE_LIST:
+      json.data = await deviceService.getDeviceData();
+      break;
 
   }
 

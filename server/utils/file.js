@@ -1,7 +1,9 @@
 const fs = require('fs')
 const path = require('path')
 
-const dir = path.resolve(__dirname, '../data copy');
+const root = '../data_copy';
+
+const dir = path.resolve(__dirname, );
 
 const writeFile = (filePath = '', data = '') => {
   if (!fs.existsSync(dir)){
@@ -44,7 +46,7 @@ const readFile = (filePath = '') => {
 
 const readJSONFile = async (fileName = '') => {
   try {
-    const filePath = path.resolve(__dirname, '../data', fileName)
+    const filePath = path.resolve(__dirname, root, fileName)
     const data = await readFile(filePath);
     if (data) {
       return JSON.parse(data)
@@ -58,7 +60,7 @@ const readJSONFile = async (fileName = '') => {
 
 const writeJSONFile = async (fileName = '', jsonObj = {}) => {
   try {
-    const filePath = path.resolve(__dirname, '../data', fileName);
+    const filePath = path.resolve(__dirname, root, fileName);
     await writeFile(filePath, JSON.stringify(jsonObj))
   } catch (error) {
     console.log(error)
@@ -68,7 +70,7 @@ const writeJSONFile = async (fileName = '', jsonObj = {}) => {
 
 const writeTextFile = async (fileName = '', str = '') => {
   try {
-    const filePath = path.resolve(__dirname, '../data', fileName);
+    const filePath = path.resolve(__dirname, root, fileName);
     await writeAppendFile(filePath, str)
   } catch (error) {
     console.log(error)
