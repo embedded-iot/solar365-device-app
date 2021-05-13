@@ -6,7 +6,7 @@ class WebSocketClient {
     if (this.connection) return;
     this.connectWebsocket();
 
-    this.connectInterval = setInterval(() => {
+    setInterval(() => {
       this.connectWebsocket();
     }, 5000);
   }
@@ -25,6 +25,18 @@ class WebSocketClient {
         this.isConnected = false;
         console.log("WebSocket Client Closed");
       };
+      this.connection.onmessage = (message) => {
+        try {
+          const data = JSON.parse(message.data);
+          if (data.type === "Refresh") {
+            console.log('Refresh');
+            this.payload && this.sendMessage(this.payload);
+          }
+          this.onReceivedMessage && this.onReceivedMessage(data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
     }
   }
 
@@ -34,18 +46,7 @@ class WebSocketClient {
   };
 
   receivedMessage = (callback = () => {}) => {
-    this.connection.onmessage = (message) => {
-      try {
-        const data = JSON.parse(message.data);
-        if (data.type === "Refresh") {
-          console.log('Refresh');
-          this.payload && this.sendMessage(this.payload);
-        }
-        callback(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    this.onReceivedMessage = callback;
   };
 }
 

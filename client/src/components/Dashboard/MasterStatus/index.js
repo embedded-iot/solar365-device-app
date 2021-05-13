@@ -25,7 +25,7 @@ const MasterStatus = (props) => (
     </div>
     <div className="master-status__item">
       <span className="master-status__title"><FormattedMessage id="REQUEST_DATA_INTERVAL" />:</span>
-      <span className="master-status__value">{`${props.clientConnectInterval || '-'} (s)`}</span>
+      <span className="master-status__value">{`${(props.intervalRefresh / 1000) || '-'} (s)`}</span>
     </div>
     <div className="master-status__item">
       <span className="master-status__title"><FormattedMessage id="LAST_UPDATED_DATA_TIME" />:</span>

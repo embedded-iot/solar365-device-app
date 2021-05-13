@@ -1,5 +1,5 @@
 const { webSocketServerController, webSocketClientController } = require('./controller');
-const { configService } = require('./service');
+const { configService, masterService } = require('./service');
 const  { findDeviceIPInLocalNetwork } = require('./middlewares/master');
 const  { actionTypes } = require('./middlewares/server');
 const globalConfig = require('./config/global');
@@ -46,8 +46,9 @@ const main = async () => {
   while (run) {
     await masterConnect();
     console.log("Push event:" + actionTypes.REFRESH);
+    const settings = await masterService.getMasterSettings();
     webSocketServerController.sendMessage({ type: actionTypes.REFRESH });
-    await delay(globalConfig.CLIENT_CONNECT_INTERVAL);
+    await delay(settings.intervalRefresh || globalConfig.CLIENT_CONNECT_INTERVAL);
   }
 }
 
