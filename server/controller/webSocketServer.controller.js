@@ -58,6 +58,9 @@ const controller = async (userID, requestPayload) => {
         loggerFaultCount: (loggerFault && loggerFault.count) || 0,
         solar365FaultCount: (solar365Fault.list && solar365Fault.list.length) || 0}
       break;
+    case actionTypes.CONFIG:
+      json.data = await configService.getConfigData();
+      break;
     case actionTypes.ACTIVITY_LOG:
       json.data = await activityLogService.getActivityLogData();
       break;

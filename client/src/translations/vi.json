@@ -54,6 +54,9 @@
   "NAME": "NAME",
   "VOLTAGE_V": "Voltage V",
   "CURRENT_A": "Current A",
+  "INVERTER_REALTIME_VALUES": "Inverter Realtime Values",
+  "DASHBOARD": "Dashboard",
+  "ACTIVE_POWER": "Active Power",
   "LOGGER_FAULT": "Logger Fault",
   "SOLAR_FAULT": "Solar365 Fault"
 }

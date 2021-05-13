@@ -3,6 +3,9 @@ import React from "react";
 
 const ACTION_TYPES = {
   OVERVIEW: "Overview",
+  USER_EVENT: "userevent",
+  CONTENT_CHANGE: "contentchange",
+  CONFIG: "config",
   REQUEST_LOGIN: 'userevent',
   CONNECT: 'connect',
   DEVICE_LIST: 'devicelist',

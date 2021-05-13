@@ -6,8 +6,11 @@ import { FormattedMessage } from "react-intl";
 
 export default function LeftNavigation() {
   const items = [{
-    path: '/home',
+    path: '/overview',
     text: <FormattedMessage id="OVERVIEW" />
+  }, {
+    path: '/home',
+    text: <FormattedMessage id="DASHBOARD" />
   }, {
     path: '/statistics',
     text: <FormattedMessage id="STATISTICS" />

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Badge } from "antd";
-import moment from 'moment';
 
 import './style.scss';
 import { FormattedMessage } from "react-intl";

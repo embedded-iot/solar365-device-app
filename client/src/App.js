@@ -22,14 +22,15 @@ import LoggerFault from "./containers/LoggerFault";
 import DevicesPage from "./containers/DevicesPage";
 import DeviceDetailsPage from "./containers/DeviceDetailsPage";
 import StatisticsPage from "./containers/StatisticsPage";
+import OverviewPage from "./containers/OverviewPage";
 
 
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import './App.scss';
 
-const PrivateRouter = (props) => {
+const RefreshRouter = (props) => {
   const CONFIG_BACKEND = globalConfig.getConfigBackend();
-  if (!CONFIG_BACKEND.isLogined) {
+  if (props.private && !CONFIG_BACKEND.isLogined) {
     return <LoginPage />;
   }
   return (
@@ -46,17 +47,18 @@ const PrivateRouter = (props) => {
 
 const Routers = withRouter((props) => (
   <Switch>
-    <PrivateRouter path="/home" component={Dashboard} />
-    <PrivateRouter path="/statistics" component={StatisticsPage} />
-    <PrivateRouter path="/devices/details/:deviceId/:tab/:deviceName" component={DeviceDetailsPage} />
-    <PrivateRouter path="/devices/filter/:type" component={DevicesPage} />
-    <PrivateRouter path="/devices" component={DevicesPage} />
-    <PrivateRouter path="/logger-fault/filter/:type" component={LoggerFault} />
-    <PrivateRouter path="/logger-fault" component={LoggerFault} />
-    <PrivateRouter path="/solar-fault/filter/:type" component={Solar365Fault} />
-    <PrivateRouter path="/solar-fault" component={Solar365Fault} />
+    <RefreshRouter path="/overview" component={OverviewPage} private={false} />
+    <RefreshRouter path="/home" component={Dashboard} private />
+    <RefreshRouter path="/statistics" component={StatisticsPage} />
+    <RefreshRouter path="/devices/details/:deviceId/:tab/:deviceName" component={DeviceDetailsPage} private />
+    <RefreshRouter path="/devices/filter/:type" component={DevicesPage} private />
+    <RefreshRouter path="/devices" component={DevicesPage} private />
+    <RefreshRouter path="/logger-fault/filter/:type" component={LoggerFault} private />
+    <RefreshRouter path="/logger-fault" component={LoggerFault} private />
+    <RefreshRouter path="/solar-fault/filter/:type" component={Solar365Fault} private />
+    <RefreshRouter path="/solar-fault" component={Solar365Fault} private />
     {
-      props.location && props.location.pathname === '/' && <Redirect to={{ pathname: '/home'}} />
+      props.location && props.location.pathname === '/' && <Redirect to={{ pathname: '/overview'}} />
     }
   </Switch>
 ));
