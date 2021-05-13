@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const root = '../data_copy';
+const root = '../data';
 
 const dir = path.resolve(__dirname, );
 

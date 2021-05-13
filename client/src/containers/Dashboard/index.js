@@ -24,8 +24,8 @@ class Dashboard extends Component {
 
   componentDidMount() {
     webSocketClient.receivedMessage((response) => {
+      console.log(response);
       if (response.type === ACTION_TYPES.OVERVIEW) {
-        console.log(response.data);
         this.setState({
           overviewData: response.data
         });

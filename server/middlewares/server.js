@@ -1,4 +1,5 @@
 const actionTypes = {
+  REFRESH: "Refresh",
   OVERVIEW: "Overview",
   USER_EVENT: "userevent",
   CONTENT_CHANGE: "contentchange",

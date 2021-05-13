@@ -9,8 +9,8 @@ const renderContents = (contents) => {
   return (
     <div className="statistic-status__contents">
       {
-        contents.map(content => (
-          <div className="statistic-status__item">
+        contents.map((content, index) => (
+          <div className="statistic-status__item" key={index.toString()}>
             <div className="statistic-status__item-header">
               <span style={{ color: content.important ? 'red' : ''}} className={content.viewDetail ? "link" : ''} onClick={content.viewDetail}>{content.value}</span>
               <span>{content.unit}</span>

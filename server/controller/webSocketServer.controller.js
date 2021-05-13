@@ -28,7 +28,7 @@ let userActivity = [];
 const sendMessage = (json) => {
   // We are sending the current data to all connected clients
   Object.keys(clients).map((client) => {
-    clients[client].sendUTF(json);
+    clients[client].sendUTF(JSON.stringify(json));
   });
 }
 
@@ -79,7 +79,7 @@ const controller = async (userID, requestPayload) => {
 
   }
 
-  sendMessage(JSON.stringify(json));
+  sendMessage(json);
 }
 
 const start = async () => {
@@ -110,5 +110,6 @@ const start = async () => {
 }
 
 module.exports = {
-  start
+  start,
+  sendMessage
 }

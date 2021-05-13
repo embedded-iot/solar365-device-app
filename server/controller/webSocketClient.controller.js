@@ -4,7 +4,6 @@ const { connectPayload, actionTypes, deviceListPayload, deviceLogPayload, device
   faultPayload, statisticDeviceDetailsPayload, deviceInfoPayload, activityLogCategories  } = require('../middlewares/master');
 const { deviceService, deviceLogService, statisticsService,
   faultService, aboutService, configService, activityLogService } = require('../service');
-const { pushDebugLog } = require('../service/common/debugLog.service');
 const { delay } = require("../utils");
 
 const i18n = require('../config/i18n');
@@ -99,12 +98,9 @@ const controller = async (response) => {
         break;
       default:
         console.log("[Data parse fail]");
-        await pushDebugLog("Data parse fail");
-        await pushDebugLog(JSON.stringify(response));
     }
   } else if (response) {
     console.log("[Invalid Response]", JSON.stringify(response));
-    await pushDebugLog("Invalid Response" + JSON.stringify(response));
   }
 };
 
@@ -241,7 +237,6 @@ const connect = async () => {
     })
   }
   console.log("LOG: ", JSON.stringify(process.logObj));
-  await pushDebugLog(JSON.stringify(process.logObj));
   return isConnected;
 }
 

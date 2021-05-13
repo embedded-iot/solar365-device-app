@@ -1,6 +1,7 @@
 const { webSocketServerController, webSocketClientController } = require('./controller');
 const { configService } = require('./service');
 const  { findDeviceIPInLocalNetwork } = require('./middlewares/master');
+const  { actionTypes } = require('./middlewares/server');
 const globalConfig = require('./config/global');
 const { delay } = require('./utils');
 
@@ -33,7 +34,6 @@ const masterConnect = async () => {
 
 const main = async () => {
   await webSocketServerController.start();
-  return;
   process.logObj = {
     connectTotalCount: 0,
     connectSuccessCount: 0,
@@ -43,16 +43,12 @@ const main = async () => {
   };
 
   let run = true;
-
   while (run) {
     await masterConnect();
+    console.log("Push event:" + actionTypes.REFRESH);
+    webSocketServerController.sendMessage({ type: actionTypes.REFRESH });
     await delay(globalConfig.CLIENT_CONNECT_INTERVAL);
   }
-  // setInterval(async () => {
-  //   await masterConnect();
-  // }, globalConfig.CLIENT_CONNECT_INTERVAL);
-
-
 }
 
 main();

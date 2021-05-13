@@ -17,7 +17,6 @@ class OverviewPage extends React.PureComponent {
   componentDidMount() {
     webSocketClient.receivedMessage((response) => {
       if (response.type === ACTION_TYPES.CONFIG) {
-        console.log(response.data);
         const { DeviceSN, isConnected } = response.data || {};
         this.setState({
           isConnected,
