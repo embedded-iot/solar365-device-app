@@ -63,6 +63,7 @@ const controller = async (response) => {
         await statisticsService.saveStatisticsData(response.result_data);
         break;
       case actionTypes.DEVICE_LIST:
+        response.result_data.list = response.result_data.list.map(device => deviceService.transformDevice(device));
         await getDeviceInfo(response.result_data.list);
         await deviceService.saveDeviceData(response.result_data);
         break;

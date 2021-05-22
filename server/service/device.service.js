@@ -44,10 +44,19 @@ const requestDeviceInfo = async (deviceInfoParams = {}) => {
     res.result_data.service = actionTypes.DEVICE_INFO;
   }
   return res;
-};
+}
+
+const transformDevice = device => {
+  const connected = device.init_status === device.link_status;
+  return {
+    ...device,
+    connected,
+  };
+}
 
 module.exports = {
   getDeviceData,
+  transformDevice,
   saveDeviceData,
   requestDeviceInfo
 }
