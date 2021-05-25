@@ -23,6 +23,7 @@ class StatisticsPage extends React.PureComponent {
     webSocketClient.receivedMessage((response) => {
       if (response.type === ACTION_TYPES.STATISTICS) {
         const statisticsResponse = (response.data && response.data.list) || [];
+        console.log(statisticsResponse);
         if (statisticsResponse.length === 3) {
           const summaryStatisticsData = statisticsResponse[0];
           const deviceStatisticsData = statisticsResponse[2];

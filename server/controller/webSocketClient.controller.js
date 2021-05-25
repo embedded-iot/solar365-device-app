@@ -59,6 +59,7 @@ const controller = async (response) => {
         break;
       case actionTypes.STATISTICS:
         const statisticDeviceDetailsResponse = await request(statisticDeviceDetailsPayload({ token }));
+        statisticDeviceDetailsResponse.result_data.list = statisticDeviceDetailsResponse.result_data.list.map(statisticsService.transformStatisticDevice);
         response.result_data.list.push(statisticDeviceDetailsResponse.result_data);
         await statisticsService.saveStatisticsData(response.result_data);
         break;

@@ -69,7 +69,7 @@ const STATISTIC_STATUS_TYPES = {
 const I18N_STATISTIC_STATUS_TYPES = {
   [STATISTIC_STATUS_TYPES.OFFLINE]: <FormattedMessage id="OFFLINE" />,
   [STATISTIC_STATUS_TYPES.STANDBY]: <FormattedMessage id="STANDBY" />,
-  [STATISTIC_STATUS_TYPES.RUN]: <FormattedMessage id="OFFLINE" />,
+  [STATISTIC_STATUS_TYPES.RUN]: <FormattedMessage id="RUN" />,
   [STATISTIC_STATUS_TYPES.SHUTDOWN]: <FormattedMessage id="SHUTDOWN" />
 };
 

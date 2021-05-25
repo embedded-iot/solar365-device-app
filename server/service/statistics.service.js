@@ -32,9 +32,27 @@ const saveStatisticsData = async (statisticsData = {}) => {
   await file.writeJSONFile(fileName, statisticsData);
 };
 
+const transformStatisticDevice = deviceStatistic => {
+  let deviceStatus = '';
+  if (deviceStatistic.dev_state === '65534') {
+    deviceStatus = 'Offline';
+  } else if (deviceStatistic.dev_state === '5120') {
+    deviceStatus = 'Standby';
+  } else if (deviceStatistic.dev_state === '0') {
+    deviceStatus = 'Run';
+  } else {
+    deviceStatus = 'Shutdown';
+  }
+  return {
+    ...deviceStatistic,
+    deviceStatus,
+  };
+}
+
 module.exports = {
   getStatisticsData,
-  saveStatisticsData
+  saveStatisticsData,
+  transformStatisticDevice
 }
 
 
