@@ -20,7 +20,7 @@ const I18N_CATEGORIES = {
   [CATEGORIES.ACTIVITY_LOG]: <FormattedMessage id="ACTIVITY_LOG" />
 };
 
-const transformSolar365FaultList = (activityLog, index) => {
+const transformActivityLogList = (activityLog, index) => {
   activityLog.key = index;
   // eslint-disable-next-line no-undef
   activityLog.convertedDate = DateServices.convert(activityLog.updateAt, i18n.DATE_FORMAT);
@@ -38,7 +38,7 @@ const ALERT_TYPES_OPTIONS = [
   }
 ];
 
-export const Solar365FaultServices = {
-  transformSolar365FaultList,
+export const ActivityLogServices = {
+  transformActivityLogList,
   ALERT_TYPES_OPTIONS
 };

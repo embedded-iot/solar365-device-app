@@ -4,17 +4,17 @@ import TableWrapper from "../../components/TableWrapper";
 import CheckboxGroup from "../../components/CheckboxGroup";
 import { webSocketClient } from "../../Utils";
 import { ACTION_TYPES } from "../../components/constants";
-import { Solar365FaultServices } from "../../components/Solar365Fault/Solar365FaultServices";
+import { ActivityLogServices } from "../../components/ActivityLog/ActivityLogServices";
 
 import "./style.scss";
 import StatusTag from "../../components/StatusTag";
 
-class Solar365Fault extends React.PureComponent {
+class ActivityLog extends React.PureComponent {
 
   constructor(props) {
     super(props);
 
-    this.alertTypes = Solar365FaultServices.ALERT_TYPES_OPTIONS;
+    this.alertTypes = ActivityLogServices.ALERT_TYPES_OPTIONS;
     this.state = {
       dataSource: [],
       selectedAlertTypes: props.match && props.match.params && props.match.params.type ? [props.match.params.type] : this.alertTypes.map(type => type.value)
@@ -25,7 +25,7 @@ class Solar365Fault extends React.PureComponent {
     webSocketClient.receivedMessage((response) => {
       if (response.type === ACTION_TYPES.ACTIVITY_LOG) {
         this.setState({
-          dataSource: response.data && response.data.list.map(Solar365FaultServices.transformSolar365FaultList)
+          dataSource: response.data && response.data.list.map(ActivityLogServices.transformActivityLogList)
         });
       }
     });
@@ -79,4 +79,4 @@ class Solar365Fault extends React.PureComponent {
   }
 }
 
-export default Solar365Fault;
+export default ActivityLog;

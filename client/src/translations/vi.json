@@ -39,6 +39,7 @@
   "SERIAL_NUMBER": "SN",
   "PIECE": "Piece",
   "FAULT": "Fault",
+  "FAULTS": "Faults",
   "PROMPT": "Nhắc nhở",
   "SUGGEST": "Khuyến nghị",
   "DEVICE_NAME": "Device name",

@@ -100,13 +100,13 @@ class Dashboard extends Component {
           description: <FormattedMessage id="LOGGER_FAULT" />,
           value: overviewData.loggerFaultCount,
           unit: <FormattedMessage id="ERROR" />,
-          viewDetail: () => this.viewDetailsPage('logger-fault/filter/Error')
+          viewDetail: () => this.viewDetailsPage('faults/filter/Error')
         },
         {
           description: <FormattedMessage id="SOLAR_FAULT" />,
-          value: overviewData.solar365FaultCount,
+          value: overviewData.activityLogCount,
           unit: <FormattedMessage id="ERROR" />,
-          viewDetail: () => this.viewDetailsPage('solar-fault/filter/Error')
+          viewDetail: () => this.viewDetailsPage('activity-log/filter/Error')
         }
       ]
     }

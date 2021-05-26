@@ -17,7 +17,7 @@ import BackTopWrapper from "./components/BackTopWrapper";
 
 import Dashboard from "./containers/Dashboard";
 import LoginPage from "./containers/LoginPage";
-import Solar365Fault from "./containers/Solar365Fault";
+import ActivityLog from "./containers/ActivityLog";
 import LoggerFault from "./containers/LoggerFault";
 import DevicesPage from "./containers/DevicesPage";
 import DeviceDetailsPage from "./containers/DeviceDetailsPage";
@@ -59,10 +59,10 @@ const Routers = withRouter((props) => (
     <RefreshRouter path="/devices/details/:deviceId/:tab/:deviceName" component={DeviceDetailsPage} private />
     <RefreshRouter path="/devices/filter/:type" component={DevicesPage} private />
     <RefreshRouter path="/devices" component={DevicesPage} private />
-    <RefreshRouter path="/logger-fault/filter/:type" component={LoggerFault} private />
-    <RefreshRouter path="/logger-fault" component={LoggerFault} private />
-    <RefreshRouter path="/solar-fault/filter/:type" component={Solar365Fault} private />
-    <RefreshRouter path="/solar-fault" component={Solar365Fault} private />
+    <RefreshRouter path="/faults/filter/:type" component={LoggerFault} private />
+    <RefreshRouter path="/faults" component={LoggerFault} private />
+    <RefreshRouter path="/activity-log/filter/:type" component={ActivityLog} private />
+    <RefreshRouter path="/activity-log" component={ActivityLog} private />
     {
       props.location && props.location.pathname === '/' && <Redirect to={{ pathname: '/overview'}} />
     }

@@ -39,6 +39,7 @@
   "SERIAL_NUMBER": "SN",
   "PIECE": "Piece",
   "FAULT": "Fault",
+  "FAULTS": "Faults",
   "PROMPT": "Prompt",
   "SUGGEST": "Suggest",
   "DEVICE_NAME": "Device name",

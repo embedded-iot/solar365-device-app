@@ -18,11 +18,11 @@ export default function LeftNavigation() {
     path: '/devices',
     text: <FormattedMessage id="DEVICES" />
   }, {
-    path: '/logger-fault',
-    text: <FormattedMessage id="LOGGER_FAULT" />
+    path: '/faults',
+    text: <FormattedMessage id="FAULTS" />
   }, {
-    path: '/solar-fault',
-    text: <FormattedMessage id="SOLAR_FAULT" />
+    path: '/activity-log',
+    text: <FormattedMessage id="ACTIVITY_LOG" />
   }];
 
   return (
