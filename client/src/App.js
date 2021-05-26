@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import 'medium-editor/dist/css/medium-editor.css';
 import 'medium-editor/dist/css/themes/default.css';
 
@@ -24,6 +24,7 @@ import DeviceDetailsPage from "./containers/DeviceDetailsPage";
 import StatisticsPage from "./containers/StatisticsPage";
 import OverviewPage from "./containers/OverviewPage";
 
+import {languageContext} from "./components/Wrapper";
 
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import './App.scss';
@@ -33,11 +34,16 @@ const RefreshRouter = (props) => {
   if (props.private && !CONFIG_BACKEND.isLogined) {
     return <LoginPage />;
   }
+  const context = useContext(languageContext);
   return (
     <div className="app">
-      <div className="app__sidebar">
-        <LeftNavigation />
-      </div>
+      {
+        !!context.isLeftMenu && (
+          <div className="app__sidebar">
+            <LeftNavigation />
+          </div>
+        )
+      }
       <div className="app__content">
         <Route path={props.path} component={props.component} />
       </div>

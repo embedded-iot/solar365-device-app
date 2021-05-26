@@ -18,6 +18,7 @@ window.i18n = lang;
 const Wrapper = (props) => {
   const [locale, setLocale] = useState(local);
   const [messages, setMessages] = useState(lang);
+  const [isLeftMenu, setLeftMenu] = useState(true);
   function selectLanguage(e) {
     const newLocale = e.target.value;
     setLocale(newLocale);
@@ -31,7 +32,7 @@ const Wrapper = (props) => {
   }
 
   return (
-    <Context.Provider value={{ locale, selectLanguage }}>
+    <Context.Provider value={{ locale, selectLanguage, isLeftMenu, setLeftMenu }}>
       <IntlProvider messages={messages} locale={locale}>
         {props.children}
       </IntlProvider>
