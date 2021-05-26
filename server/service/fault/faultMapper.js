@@ -197,4 +197,4 @@ const faultMapper = [
   }
 ];
 
-export default faultMapper;
+module.exports = faultMapper;

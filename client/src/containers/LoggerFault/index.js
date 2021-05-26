@@ -1,5 +1,6 @@
 import React from "react";
 import parse from 'html-react-parser';
+import { Tooltip } from 'antd';
 import { FormattedMessage } from "react-intl";
 import TableWrapper from "../../components/TableWrapper";
 import CheckboxGroup from "../../components/CheckboxGroup";
@@ -39,32 +40,38 @@ class LoggerFault extends React.PureComponent {
     {
       title: <FormattedMessage id="DATE" />,
       dataIndex: 'convertedDate',
-      width: '20%',
+      width: '15%',
+    },
+    {
+      title: <FormattedMessage id="CATEGORY" />,
+      dataIndex: 'category',
+      width: '10%',
     },
     {
       title: <FormattedMessage id="TYPE" />,
       dataIndex: 'type',
-      width: '15%',
-      render: type => <StatusTag status={type} />
-    },
-    {
-      title: <FormattedMessage id="DEVICE_ID" />,
-      dataIndex: 'dev_id',
       width: '10%',
+      render: type => <StatusTag status={type} />
     },
     {
       title: <FormattedMessage id="DEVICE_NAME" />,
       dataIndex: 'dev_name',
       width: '15%',
-    }, {
-      title: <FormattedMessage id="FAULT_NAME" />,
-      dataIndex: 'fault_name_i18n',
-      width: '15%',
-    }, {
-      title: <FormattedMessage id="REASON" />,
-      dataIndex: 'fault_reason_i18n',
-      render: reasonText => parse(reasonText)
     },
+    {
+      title: <FormattedMessage id="FAULT_NAME" />,
+      dataIndex: 'description',
+      width: '20%',
+    },
+    {
+      title: <FormattedMessage id="REASON" />,
+      dataIndex: 'reason',
+      render: (reason, row) => !!row.suggest ? (
+        <Tooltip title={row.suggest} color='yellow'>
+          parse(reason)
+        </Tooltip>
+      ) : parse(reason)
+    }
   ];
 
   onChangeTypes = (checkedValues) => {

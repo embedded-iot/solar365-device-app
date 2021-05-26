@@ -1,11 +1,5 @@
 const { network } = require('../utils')
 
-const alertTypes = {
-  SUCCESS: 'Success',
-  ERROR: 'Error',
-  WARNING: 'Warning'
-}
-
 const actionTypes = {
   CONNECT: 'connect',
   DEVICE_LIST: 'devicelist',
@@ -17,6 +11,23 @@ const actionTypes = {
   FAULT: 'fault',
   ACTIVITY_LOG: 'activityLog',
   ABOUT: 'about',
+}
+
+const alertTypes = {
+  SUCCESS: 'Success',
+  ERROR: 'Error',
+  WARNING: 'Warning'
+}
+
+const faultEvents = {
+  DEVICES: 'Devices',
+  MPPT: 'MPPT',
+  STRING: 'String'
+}
+
+const faultCategories = {
+  LOGGER_FAULT: 'LoggerFault',
+  SOLAR365_FAULT: 'Solar365Fault',
 }
 
 const activityLogCategories = {
@@ -94,6 +105,8 @@ module.exports = {
   findDeviceIPInLocalNetwork,
   alertTypes,
   actionTypes,
+  faultCategories,
+  faultEvents,
   connectPayload,
   deviceListPayload,
   deviceInfoPayload,

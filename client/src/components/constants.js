@@ -23,25 +23,19 @@ const ACTION_TYPES = {
 const ALERT_TYPES = {
   SUCCESS: 'Success',
   ERROR: 'Error',
-  WARNING: 'Warning',
-  PROMPT: 'Prompt',
-  SUGGEST: 'Suggest'
+  WARNING: 'Warning'
 };
 
 const ALERT_TYPE_COLORS = {
   [ALERT_TYPES.SUCCESS]: 'success',
   [ALERT_TYPES.ERROR]: 'error',
-  [ALERT_TYPES.WARNING]: 'warning',
-  [ALERT_TYPES.PROMPT]: 'processing',
-  [ALERT_TYPES.SUGGEST]: 'default'
+  [ALERT_TYPES.WARNING]: 'warning'
 };
 
 const I18N_ALERT_TYPES = {
   [ALERT_TYPES.SUCCESS]: <FormattedMessage id="SUCCESS" />,
   [ALERT_TYPES.ERROR]: <FormattedMessage id="ERROR" />,
-  [ALERT_TYPES.WARNING]: <FormattedMessage id="WARNING" />,
-  [ALERT_TYPES.PROMPT]: <FormattedMessage id="PROMPT" />,
-  [ALERT_TYPES.SUGGEST]: <FormattedMessage id="SUGGEST" />
+  [ALERT_TYPES.WARNING]: <FormattedMessage id="WARNING" />
 };
 
 const DEVICE_STATUS_TYPES = {

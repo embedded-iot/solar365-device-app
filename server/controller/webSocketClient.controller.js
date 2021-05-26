@@ -81,7 +81,7 @@ const controller = async (response) => {
         await deviceLogService.saveDeviceLogData(deviceLogIOData);
         break;
       case actionTypes.FAULT:
-        await faultService.saveFaultData(response.result_data);
+        await faultService.saveFaultData(response.result_data && response.result_data.list || []);
         break;
       case actionTypes.ABOUT:
         if (response.result_data.product_name) {

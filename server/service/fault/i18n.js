@@ -1293,4 +1293,4 @@ const i18n = {
   I18N_COMMON_DRM_ENABLING: 'DRM Enabling',
 };
 
-export default i18n;
+module.exports = i18n;
