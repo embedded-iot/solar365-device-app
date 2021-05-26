@@ -14,7 +14,7 @@ const createActivityLog = async (activityLogData = {}) => {
   }
   const res = await http.getPostWithConfig(requestUrl, data);
   if (res && !res.code) {
-    //console.log("ActivityLog created");
+    console.log("ActivityLog created");
   } else {
     console.log("ActivityLog create fail");
   }
@@ -62,15 +62,11 @@ const success = async ({ category = '', type = '', description = '', activityLog
 const error = async ({ category = '', type = '', description = '', activityLogData = {} } = {}) => {
   await pushActivityLog({ category, description, activityLogData, type: alertTypes.ERROR })
 }
-const warning = async ({ category = '', type = '', description = '', activityLogData = {} } = {}) => {
-  await pushActivityLog({ category, description, activityLogData, type: alertTypes.WARNING })
-}
 
 module.exports = {
   getActivityLogData,
   success,
   error,
-  warning,
 }
 
 

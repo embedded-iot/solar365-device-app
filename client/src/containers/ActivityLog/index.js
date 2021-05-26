@@ -68,7 +68,7 @@ class ActivityLog extends React.PureComponent {
     const { dataSource = [], selectedAlertTypes } = this.state;
     return (
       <React.Fragment>
-        <div className="page-header"><FormattedMessage id="SOLAR_FAULT" /></div>
+        <div className="page-header"><FormattedMessage id="ACTIVITY_LOG" /></div>
         <div className="page-contents">
           {/* eslint-disable-next-line no-undef */}
           <CheckboxGroup label={`${i18n.ALERT_TYPES}:`} options={this.alertTypes} defaultValue={selectedAlertTypes} onChange={this.onChangeTypes} />
