@@ -58,7 +58,7 @@ class StatisticsPage extends React.PureComponent {
       }
     });
 
-    webSocketClient.sendMessage({ type: ACTION_TYPES.STATISTICS });
+    webSocketClient.sendMessage({ type: ACTION_TYPES.STATISTICS }, true);
   }
 
   columnsDef = [

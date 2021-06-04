@@ -23,6 +23,7 @@ import DevicesPage from "./containers/DevicesPage";
 import DeviceDetailsPage from "./containers/DeviceDetailsPage";
 import StatisticsPage from "./containers/StatisticsPage";
 import OverviewPage from "./containers/OverviewPage";
+import SettingsPage from "./containers/SettingsPage";
 
 import {languageContext} from "./components/Wrapper";
 
@@ -63,6 +64,7 @@ const Routers = withRouter((props) => (
     <RefreshRouter path="/faults" component={LoggerFault} private />
     <RefreshRouter path="/activity-log/filter/:type" component={ActivityLog} private />
     <RefreshRouter path="/activity-log" component={ActivityLog} private />
+    <RefreshRouter path="/settings" component={SettingsPage} private />
     {
       props.location && props.location.pathname === '/' && <Redirect to={{ pathname: '/overview'}} />
     }

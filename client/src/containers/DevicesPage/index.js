@@ -31,7 +31,7 @@ class DevicesPage extends React.PureComponent {
       }
     });
 
-    webSocketClient.sendMessage({ type: ACTION_TYPES.DEVICE_LIST });
+    webSocketClient.sendMessage({ type: ACTION_TYPES.DEVICE_LIST }, true);
   }
 
   columnsDef = [

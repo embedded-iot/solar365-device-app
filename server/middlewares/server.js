@@ -14,6 +14,8 @@ const actionTypes = {
   STATISTICS_RUNTIME: 'runtime',
   FAULT: 'fault',
   ACTIVITY_LOG: 'activityLog',
+  SETTINGS: 'settings',
+  UPDATE_SETTINGS: 'updateSettings',
   ABOUT: 'about',
 }
 

@@ -32,7 +32,7 @@ class Dashboard extends Component {
       }
     });
 
-    webSocketClient.sendMessage({ type: ACTION_TYPES.OVERVIEW });
+    webSocketClient.sendMessage({ type: ACTION_TYPES.OVERVIEW }, true);
   }
 
   viewDetailsPage = (router) => {

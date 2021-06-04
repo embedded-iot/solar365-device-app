@@ -12,7 +12,7 @@ class LoginPage extends React.PureComponent {
     super(props);
 
     this.state = {
-      isLogined: false,
+      isLogined: true,
       userName: '',
       password: ''
     };
@@ -33,7 +33,6 @@ class LoginPage extends React.PureComponent {
   redirectPage = () => {
     globalConfig.setConfigBackend({ isLogined: true });
     const { history, location } = this.props;
-    console.log(location.pathname);
     history.push(location.pathname);
   }
 

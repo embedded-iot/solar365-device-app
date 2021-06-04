@@ -6,3 +6,4 @@ module.exports.faultService = require('./fault.service');
 module.exports.aboutService = require('./about.service');
 module.exports.activityLogService = require('./activityLog.service');
 module.exports.masterService = require('./master.service');
+module.exports.settingsService = require('./settings.service');

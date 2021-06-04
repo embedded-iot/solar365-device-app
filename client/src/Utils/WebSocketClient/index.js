@@ -28,9 +28,9 @@ class WebSocketClient {
       this.connection.onmessage = (message) => {
         try {
           const data = JSON.parse(message.data);
-          if (data.type === "Refresh") {
+          if (this.payload && data.type === "Refresh") {
             console.log('Refresh');
-            this.payload && this.sendMessage(this.payload);
+            this.sendMessage(this.payload);
           }
           this.onReceivedMessage && this.onReceivedMessage(data);
         } catch (error) {
@@ -40,8 +40,12 @@ class WebSocketClient {
     }
   }
 
-  sendMessage = (data = {}) => {
-    this.payload = data;
+  sendMessage = (data = {}, intervalReload = false) => {
+    if (intervalReload) {
+      this.payload = data;
+    } else {
+      this.payload = undefined;
+    }
     this.connection.send(JSON.stringify(data));
   };
 

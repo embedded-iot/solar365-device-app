@@ -33,7 +33,7 @@ class LoggerFault extends React.PureComponent {
       }
     });
 
-    webSocketClient.sendMessage({ type: ACTION_TYPES.FAULT });
+    webSocketClient.sendMessage({ type: ACTION_TYPES.FAULT }, true);
   }
 
   columnsDef = [

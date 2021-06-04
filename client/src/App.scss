@@ -32,6 +32,8 @@ body {
   font-weight: bold;
   padding-bottom: 35px;
   text-transform: capitalize;
+  display: flex;
+  justify-content: space-between;
 }
 
 .link {
@@ -52,4 +54,13 @@ body {
 
 .ant-back-top {
   bottom: 100px;
+}
+
+.margin-bottom-20 {
+  margin: 20px;
+}
+
+.ant-modal-title {
+  text-transform: uppercase;
+  font-weight: bold;
 }

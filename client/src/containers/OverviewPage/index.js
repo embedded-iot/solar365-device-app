@@ -25,7 +25,7 @@ class OverviewPage extends React.PureComponent {
       }
     });
 
-    webSocketClient.sendMessage({ type: ACTION_TYPES.CONFIG });
+    webSocketClient.sendMessage({ type: ACTION_TYPES.CONFIG }, true);
   }
 
   render() {

@@ -4,7 +4,7 @@ const http = require('http');
 const { actionTypes } = require('../middlewares/server');
 const { cui } = require('../utils');
 const { deviceService, deviceLogService, statisticsService,
-  faultService, aboutService, configService, activityLogService } = require('../service');
+  faultService, aboutService, configService, activityLogService, settingsService } = require('../service');
 
 
 // Spinning the http server and the websocket server.
@@ -76,7 +76,36 @@ const controller = async (userID, requestPayload) => {
     case actionTypes.STATISTICS:
       json.data = await statisticsService.getStatisticsData();
       break;
-
+    case actionTypes.SETTINGS:
+      let settingsData = await settingsService.getSettingsData();
+      if (!settingsData.list) {
+        const devicesData = await deviceService.getDeviceData();
+        settingsData = {
+          service: actionTypes.SETTINGS,
+          list: devicesData.list && devicesData.list.map(device => ({
+            deviceId: device.dev_id,
+            deviceName: device.dev_name,
+            stationName: '-',
+            stringsCount: 0,
+            firstDirection: [],
+            secondDirection: [],
+            powerPerPin: 0
+          }))
+        }
+      }
+      json.data = settingsData;
+      break;
+    case actionTypes.UPDATE_SETTINGS:
+      const { list } = requestPayload.data || {};
+      const updatedSettingsData = {
+        service: actionTypes.SETTINGS,
+        list
+      }
+      await settingsService.saveSettingsData(updatedSettingsData);
+      json.data = {
+        message: 'Settings updated'
+      };
+      break;
   }
 
   sendMessage(json);

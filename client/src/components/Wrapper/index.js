@@ -18,7 +18,7 @@ window.i18n = lang;
 const Wrapper = (props) => {
   const [locale, setLocale] = useState(local);
   const [messages, setMessages] = useState(lang);
-  const [isLeftMenu, setLeftMenu] = useState(true);
+  const [isLeftMenu, setLeftMenu] = useState(false);
   function selectLanguage(e) {
     const newLocale = e.target.value;
     setLocale(newLocale);

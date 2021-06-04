@@ -35,7 +35,7 @@ class DeviceDetailsPage extends React.PureComponent {
       }
     });
 
-    webSocketClient.sendMessage({ type: ACTION_TYPES.DEVICE_INFO });
+    webSocketClient.sendMessage({ type: ACTION_TYPES.DEVICE_INFO }, true);
   }
 
   backPage = () => {

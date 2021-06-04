@@ -17,6 +17,8 @@ const ACTION_TYPES = {
   STATISTICS_RUNTIME: 'runtime',
   FAULT: 'fault',
   ACTIVITY_LOG: 'activityLog',
+  SETTINGS: 'settings',
+  UPDATE_SETTINGS: 'updateSettings',
   ABOUT: 'about',
 };
 

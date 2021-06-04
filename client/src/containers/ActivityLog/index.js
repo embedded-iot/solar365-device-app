@@ -30,7 +30,7 @@ class ActivityLog extends React.PureComponent {
       }
     });
 
-    webSocketClient.sendMessage({ type: ACTION_TYPES.ACTIVITY_LOG });
+    webSocketClient.sendMessage({ type: ACTION_TYPES.ACTIVITY_LOG }, true);
   }
 
   columnsDef = [

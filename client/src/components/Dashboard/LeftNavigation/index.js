@@ -23,6 +23,9 @@ export default function LeftNavigation() {
   }, {
     path: '/activity-log',
     text: <FormattedMessage id="ACTIVITY_LOG" />
+  }, {
+    path: '/settings',
+    text: <FormattedMessage id="SETTINGS" />
   }];
 
   return (
