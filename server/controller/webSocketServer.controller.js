@@ -9,10 +9,6 @@ const { deviceService, deviceLogService, statisticsService,
 
 // Spinning the http server and the websocket server.
 const server = http.createServer();
-server.listen(webSocketsServerPort);
-const wsServer = new webSocketServer({
-  httpServer: server
-});
 
 // I'm maintaining all active connections in this object
 const clients = {};
@@ -112,6 +108,10 @@ const controller = async (userID, requestPayload) => {
 }
 
 const start = async () => {
+  server.listen(webSocketsServerPort);
+  const wsServer = new webSocketServer({
+    httpServer: server
+  });
   wsServer.on('request', function(request) {
     var userID = cui.getUniqueID();
     console.log((new Date()) + ' Recieved a new connection from origin ' + request.origin + '.');
