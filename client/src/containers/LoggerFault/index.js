@@ -26,7 +26,7 @@ class LoggerFault extends React.PureComponent {
   componentDidMount() {
     webSocketClient.receivedMessage((response) => {
       if (response.type === ACTION_TYPES.FAULT) {
-        const dataSource = response.data && response.data.list.map(LoggerFaultServices.transformLoggerFaultList);
+        const dataSource = response.data && response.data.list && response.data.list.map(LoggerFaultServices.transformLoggerFaultList);
         this.setState({
           dataSource
         });
