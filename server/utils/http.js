@@ -2,7 +2,11 @@ const axios = require('axios');
 
 const getAsyncWithConfig = async (url = '', config = {}) => {
   return axios.get(url, config).then(response => {
-    return response.data;
+    try {
+      return JSON.parse(response.data);
+    } catch (e) {
+      return null;
+    }
   }).catch(error => {
     return error.response && error.response.data || null;
   })
