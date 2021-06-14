@@ -100,7 +100,7 @@ class StatisticsPage extends React.PureComponent {
           <div className="summary-statistics__wrapper">
             {
               !!statisticsData.length && statisticsData.map((statistic, index) => (
-                <div className="summary-statistics__item">
+                <div className="summary-statistics__item" key={index.toString()}>
                   <div className="summary-statistics__item-header">
                     <span>{statistic.value}</span>
                     <span>{statistic.unit}</span>
