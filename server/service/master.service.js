@@ -6,7 +6,7 @@ const getMasterSettings = async () => {
   const CONFIG_DATA = await configService.getConfigData();
   if (CONFIG_DATA.MasterKey) {
     const requestUrl = globalConfig.SERVER_API + '/masters/' + CONFIG_DATA.MasterKey + '/settings'
-    const settings = await http.getAsyncWithConfig(requestUrl);
+    const settings = (await http.getAsyncWithConfig(requestUrl)) || {};
     await configService.saveConfigData({
       ...CONFIG_DATA,
       ...settings
