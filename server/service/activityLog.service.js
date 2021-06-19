@@ -12,7 +12,7 @@ const createActivityLog = async (activityLogData = {}) => {
     masterKey: MasterKey,
     ...activityLogData
   }
-  const res = await http.getPostWithConfig(requestUrl, data);
+  const res = await http.postWithConfig(requestUrl, data);
   if (res && !res.code) {
     console.log("ActivityLog created");
   } else {

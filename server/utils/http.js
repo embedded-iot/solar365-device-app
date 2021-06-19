@@ -12,7 +12,7 @@ const getAsyncWithConfig = async (url = '', config = {}) => {
   })
 }
 
-const getPostWithConfig = async (url = '', data, config = {}) => {
+const postWithConfig = async (url = '', data, config = {}) => {
   return axios.post(url, data, config).then(response => {
     return response.data;
   }).catch(error => {
@@ -22,6 +22,6 @@ const getPostWithConfig = async (url = '', data, config = {}) => {
 
 module.exports = {
   getAsyncWithConfig,
-  getPostWithConfig,
+  postWithConfig,
 }
 

@@ -33,7 +33,7 @@ const masterConnect = async () => {
 }
 
 const scheduledTasks = async () => {
-  cron.schedule('* */1 * * *', async () => {
+  cron.schedule('0 * * * *', async () => {
     console.log("clear data after every hour")
     await webSocketClientController.clearData();
   });

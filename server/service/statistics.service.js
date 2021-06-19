@@ -11,7 +11,7 @@ const createStatistic = async (statisticData = {}) => {
     masterKey: MasterKey,
     statisticData: statisticData.list
   }
-  const res = await http.getPostWithConfig(requestUrl, data);
+  const res = await http.postWithConfig(requestUrl, data);
   if (res && !res.code) {
     //console.log("Statistic created");
   } else {

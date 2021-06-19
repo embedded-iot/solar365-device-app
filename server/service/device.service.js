@@ -12,7 +12,7 @@ const updateDevices = async (deviceData = {}) => {
     masterKey: MasterKey,
     list: deviceData.list
   }
-  const res = await http.getPostWithConfig(requestUrl, data);
+  const res = await http.postWithConfig(requestUrl, data);
   if (res && !res.code) {
    // console.log("Devices updated success");
   } else {

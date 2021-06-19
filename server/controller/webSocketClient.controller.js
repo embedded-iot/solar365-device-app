@@ -238,6 +238,7 @@ const connect = async () => {
       description: i18n.MASTERS_UPLOADED_SUCCESS
     })
   }
+  await configService.syncStatus(isConnected);
   console.log("LOG: ", JSON.stringify(process.logObj));
   return isConnected;
 }

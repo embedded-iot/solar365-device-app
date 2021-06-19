@@ -15,7 +15,7 @@ const createFault = async (faultData = {}) => {
     masterKey: MasterKey,
     ...faultData
   }
-  const res = await http.getPostWithConfig(requestUrl, data);
+  const res = await http.postWithConfig(requestUrl, data);
   if (res && !res.code) {
     console.log("Fault created");
   } else {
