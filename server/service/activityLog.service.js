@@ -63,10 +63,18 @@ const error = async ({ category = '', type = '', description = '', activityLogDa
   await pushActivityLog({ category, description, activityLogData, type: alertTypes.ERROR })
 }
 
+const clearData = async (beforeDatetime) => {
+ const activityLogData = await getActivityLogData();
+ activityLogData.list = activityLogData.list.filter(activityLog => (new Date(activityLog.updateAt)) < beforeDatetime);
+ await saveActivityLogData(activityLogData);
+}
+
 module.exports = {
   getActivityLogData,
+  saveActivityLogData,
   success,
   error,
+  clearData,
 }
 
 

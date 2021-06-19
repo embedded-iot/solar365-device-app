@@ -123,11 +123,18 @@ const warning = async (
   await pushFault({ category, type: alertTypes.WARNING, event, position, description, reason, suggest, faultData })
 }
 
+const clearData = async (beforeDatetime) => {
+  const faultData = await getFaultData();
+  faultData.list = faultData.list.filter(activityLog => (new Date(activityLog.updateAt)) < beforeDatetime);
+  await saveFaultData(faultData);
+}
+
 module.exports = {
   getFaultData,
   saveFaultData,
   error,
   warning,
+  clearData,
 }
 
 

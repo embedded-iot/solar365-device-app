@@ -1,3 +1,4 @@
+const cron = require('node-cron');
 const { webSocketServerController, webSocketClientController } = require('./controller');
 const { configService, masterService } = require('./service');
 const  { findDeviceIPInLocalNetwork } = require('./middlewares/master');
@@ -31,6 +32,12 @@ const masterConnect = async () => {
   }
 }
 
+const scheduledTasks = async () => {
+  cron.schedule('* */1 * * *', async () => {
+    console.log("clear data after every hour")
+    await webSocketClientController.clearData();
+  });
+};
 
 const main = async () => {
   await webSocketServerController.start();
@@ -41,6 +48,8 @@ const main = async () => {
     clientSendCount: 0,
     clientReceiveCount: 0
   };
+
+  await scheduledTasks();
 
   let run = true;
   while (run) {

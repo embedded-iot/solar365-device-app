@@ -242,6 +242,16 @@ const connect = async () => {
   return isConnected;
 }
 
+const clearData = async () => {
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
+
+  await activityLogService.clearData(yesterday);
+  await faultService.clearData(yesterday);
+};
+
 module.exports = {
-  connect
+  connect,
+  clearData
 }
