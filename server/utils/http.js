@@ -1,12 +1,8 @@
 const axios = require('axios');
 
-const getAsyncWithConfig = async (url = '', config = {}) => {
+const getAsyncWithConfig = async (url = '', config = {}, isShowError= false) => {
   return axios.get(url, config).then(response => {
-    try {
-      return JSON.parse(response.data);
-    } catch (e) {
-      return null;
-    }
+    return response.data;
   }).catch(error => {
     return error.response && error.response.data || null;
   })

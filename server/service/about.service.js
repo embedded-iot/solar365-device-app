@@ -25,7 +25,7 @@ const requestAbout = async (params) => {
 const requestProduct = async () => {
   const CONFIG_DATA = await configService.getConfigData();
   const url = CONFIG_DATA.MASTER_API + '/product/list';
-  const res = await http.getAsyncWithConfig(url, {});
+  const res = await http.getAsyncWithConfig(url, {}, true);
   if (res && res.result_data) {
     res.result_data.service = actionTypes.ABOUT;
   }
