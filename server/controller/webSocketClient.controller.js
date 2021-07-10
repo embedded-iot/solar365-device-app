@@ -3,7 +3,7 @@ const { cui } = require('../utils');
 const { connectPayload, actionTypes, deviceListPayload, deviceLogPayload, deviceLogIOPayload, statisticsPayload,
   faultPayload, statisticDeviceDetailsPayload, deviceInfoPayload, activityLogCategories  } = require('../middlewares/master');
 const { deviceService, deviceLogService, statisticsService,
-  faultService, aboutService, configService, activityLogService } = require('../service');
+  faultService, aboutService, configService, activityLogService, masterService } = require('../service');
 const { delay } = require("../utils");
 
 const i18n = require('../config/i18n');
@@ -238,7 +238,7 @@ const connect = async () => {
       description: i18n.MASTERS_UPLOADED_SUCCESS
     })
   }
-  await configService.syncStatus(isConnected);
+  await masterService.syncStatus(isConnected);
   console.log("LOG: ", JSON.stringify(process.logObj));
   return isConnected;
 }

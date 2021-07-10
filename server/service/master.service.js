@@ -16,6 +16,18 @@ const getMasterSettings = async () => {
   return {};
 }
 
+const syncStatus = async (status = false) => {
+  const { MasterKey } = await configService.getConfigData();
+  const requestUrl = globalConfig.SERVER_API + '/masters/' + MasterKey + '/status'
+  const data = {
+    status
+  }
+  const res = await http.postWithConfig(requestUrl, data);
+  if (!res) {
+    console.log("Sync master status successful")
+  }
+}
 module.exports = {
-  getMasterSettings
+  getMasterSettings,
+  syncStatus
 }
