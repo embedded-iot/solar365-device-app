@@ -36,17 +36,19 @@ class SettingsPage extends React.PureComponent {
 
   columnsDef = [
     {
-      title: <FormattedMessage id="DEVICE_NAME" />,
-      dataIndex: 'deviceName',
-      width: '10%',
-    }, {
       title: <FormattedMessage id="STATION_NAME" />,
       dataIndex: 'stationName',
-      width: '20%',
+      width: '10%',
+    }, {
+      title: <FormattedMessage id="DEVICE_NAME" />,
+      dataIndex: 'deviceName'
     }, {
       title: <span><FormattedMessage id="STRINGS_COUNT" />(<FormattedMessage id="PIN" />)</span>,
       dataIndex: 'stringsCount',
       width: '10%',
+      render: (stringsCount = [], row) => {
+        return (row.firstDirection.length + row.secondDirection.length)
+      }
     }, {
       title: <span><FormattedMessage id="DIRECTION" /> 1</span>,
       dataIndex: 'firstDirection',
@@ -62,8 +64,13 @@ class SettingsPage extends React.PureComponent {
       },
       width: '20%'
     }, {
+      title: <FormattedMessage id="PINS_PER_STRING" />,
+      dataIndex: 'pinsPerString',
+      width: '10%'
+    } , {
       title: <span><FormattedMessage id="POWER_PER_PIN" />(kwh)</span>,
-      dataIndex: 'powerPerPin'
+      dataIndex: 'powerPerPin',
+      width: '10%'
     }
   ];
 

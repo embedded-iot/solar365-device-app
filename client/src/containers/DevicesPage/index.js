@@ -74,7 +74,7 @@ class DevicesPage extends React.PureComponent {
         <div className="page-header"><FormattedMessage id="DEVICES" /></div>
         <div className="page-contents">
           {/* eslint-disable-next-line no-undef */}
-          <CheckboxGroup label={`${i18n.DEVICE_STATUS}:`} options={this.deviceStatus} defaultValue={selectedStatusTypes} onChange={this.onChangeTypes} />
+          <CheckboxGroup label={`${i18n.DEVICE_STATUS}:`} options={this.deviceStatus} value={selectedStatusTypes} onChange={this.onChangeTypes} />
           <TableWrapper columns={this.columnsDef} dataSource={this.getFilteredDataSource(dataSource)} />
         </div>
       </React.Fragment>

@@ -81,11 +81,12 @@ const controller = async (userID, requestPayload) => {
           list: devicesData.list && devicesData.list.map(device => ({
             deviceId: device.dev_id,
             deviceName: device.dev_name,
-            stationName: '-',
-            stringsCount: 0,
+            stationName: '',
+            stringsCount: 18,
             firstDirection: [],
             secondDirection: [],
-            powerPerPin: 0
+            powerPerPin: 440,
+            pinsPerString: 0,
           }))
         }
       }

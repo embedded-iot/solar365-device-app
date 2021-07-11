@@ -71,7 +71,7 @@ class ActivityLog extends React.PureComponent {
         <div className="page-header"><FormattedMessage id="ACTIVITY_LOG" /></div>
         <div className="page-contents">
           {/* eslint-disable-next-line no-undef */}
-          <CheckboxGroup label={`${i18n.ALERT_TYPES}:`} options={this.alertTypes} defaultValue={selectedAlertTypes} onChange={this.onChangeTypes} />
+          <CheckboxGroup label={`${i18n.ALERT_TYPES}:`} options={this.alertTypes} value={selectedAlertTypes} onChange={this.onChangeTypes} />
           <TableWrapper columns={this.columnsDef} dataSource={this.getFilteredDataSource(dataSource)} />
         </div>
       </React.Fragment>

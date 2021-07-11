@@ -65,6 +65,7 @@
   "STRING": "String",
   "UPDATE_SETTINGS": "Update settings",
   "POWER_PER_PIN": "Power per Pin",
+  "PINS_PER_STRING": "Pin number per each string",
   "PIN": "Pin",
   "CANCEL": "Cancel",
   "SAVE": "Save",

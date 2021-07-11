@@ -1,6 +1,7 @@
 import React from "react";
-import {Input, InputNumber, Modal, Transfer} from "antd";
+import {Input, InputNumber, Modal} from "antd";
 import {FormattedMessage} from "react-intl";
+import CheckboxGroup from "../../CheckboxGroup";
 
 import "./style.scss";
 
@@ -16,39 +17,30 @@ class UpdateSettingsModal extends React.PureComponent {
       originDirection: (selectedDevice && selectedDevice.originDirection) || [],
       firstDirection: (selectedDevice && selectedDevice.firstDirection) || [],
       secondDirection: (selectedDevice && selectedDevice.secondDirection) || [],
-      powerPerPin: (selectedDevice && selectedDevice.powerPerPin) || 440
+      powerPerPin: (selectedDevice && selectedDevice.powerPerPin) || 440,
+      pinsPerString: (selectedDevice && selectedDevice.pinsPerString) || 0,
     }
-
+    this.checkboxList = this.getCheckboxList();
   }
 
-  componentDidMount() {
-    this.renderStringDirections();
-  }
-
-  renderStringDirections = () => {
-    const originDirection = [];
-    const firstDirection = [];
-    for (let i = 0; i < this.state.stringsCount; i++) {
-      originDirection.push({
-        key: (i + 1),
-        title: `String ${i + 1}`
-      });
-      firstDirection.push(i+1);
+  getCheckboxList = (disabledItems = []) => {
+    const { stringsCount } = this.state;
+    const checkboxList = [];
+    for (let index = 1; index <= stringsCount; index++) {
+      checkboxList.push({ value: index, label: `String ${index}`, disabled: disabledItems.includes(index) })
     }
-    this.setState({
-      originDirection,
-      firstDirection
-    });
+    return checkboxList;
   }
 
   handleOk = () => {
-    const { stationName, stringsCount, firstDirection, secondDirection, powerPerPin } = this.state;
+    const { stationName, stringsCount, firstDirection, secondDirection, powerPerPin, pinsPerString } = this.state;
     this.props.onOk({
       stationName,
       stringsCount,
       firstDirection,
       secondDirection,
-      powerPerPin
+      powerPerPin,
+      pinsPerString
     })
     this.props.onChange(false);
   };
@@ -56,29 +48,23 @@ class UpdateSettingsModal extends React.PureComponent {
   handleCancel = () => {
     this.props.onChange(false);
   }
-
   onChange = (value, name) => {
     this.setState({
       [name]: value
-    }, () => {
-      if (name === 'stringsCount') {
-        this.renderStringDirections();
-      }
     });
   }
 
-  onChangeTransfer = (nextTargetKeys) => {
-    const { originDirection } = this.state;
-    console.log(nextTargetKeys);
+  onChangeCheckbox = (checkedValues, name) => {
+    const { firstDirection, secondDirection } = this.state;
     this.setState({
-      secondDirection: nextTargetKeys,
-      firstDirection: originDirection.filter(string => nextTargetKeys.indexOf(string.key) === -1).map(string => string.key)
+      firstDirection: name === 'firstDirection' ? checkedValues : firstDirection.filter(item => !checkedValues.includes(item)),
+      secondDirection: name === 'secondDirection' ? checkedValues : secondDirection.filter(item => !checkedValues.includes(item))
     });
-  };
+  }
 
   render() {
     const { open } = this.props;
-    const { stationName, stringsCount, originDirection, secondDirection, powerPerPin } = this.state;
+    const { stationName, firstDirection, secondDirection, powerPerPin, pinsPerString } = this.state;
     return (
       <Modal title={<FormattedMessage id="UPDATE_SETTINGS" />}
              visible={open}
@@ -93,21 +79,17 @@ class UpdateSettingsModal extends React.PureComponent {
           <Input placeholder="T1,2,3" value={stationName} onChange={(e) => this.onChange(e.target.value, 'stationName')}/>
         </div>
         <div className="margin-bottom-20">
-          <span className="text-bold"><FormattedMessage id="STRINGS_COUNT" />: </span>
-          <InputNumber min={1} max={40} value={stringsCount} onChange={(value) => this.onChange(value, 'stringsCount')} />
-          (<FormattedMessage id="PIN" />)
+          <span className="text-bold"><FormattedMessage id="DIRECTION" /> 1: </span>
+          <CheckboxGroup name="firstDirection" options={this.checkboxList} value={firstDirection} onChange={this.onChangeCheckbox}/>
         </div>
         <div className="margin-bottom-20">
-          <span className="text-bold"><FormattedMessage id="STRING_DIRECTIONS" />: </span>
-          <Transfer
-            dataSource={originDirection}
-            titles={[
-              <span><FormattedMessage id="DIRECTION" /> 1</span>,
-              <span><FormattedMessage id="DIRECTION" /> 2</span>]}
-            targetKeys={secondDirection}
-            onChange={this.onChangeTransfer}
-            render={item => item.title}
-          />
+          <span className="text-bold"><FormattedMessage id="DIRECTION" /> 1: </span>
+          <CheckboxGroup name="secondDirection" options={this.checkboxList} value={secondDirection} onChange={this.onChangeCheckbox}/>
+        </div>
+        <div className="margin-bottom-20">
+          <span className="text-bold"><FormattedMessage id="PINS_PER_STRING" />: </span>
+          <InputNumber min={0} max={40} value={pinsPerString} onChange={(value) => this.onChange(value, 'pinsPerString')} />
+          (<FormattedMessage id="PIN" />)
         </div>
         <div className="margin-bottom-20">
           <span className="text-bold"><FormattedMessage id="POWER_PER_PIN" />: </span>
