@@ -33,6 +33,7 @@ const saveFaultLocalData = async (faultData = {}) => {
 
 const pushFault = async (
   {
+    deviceId = '',
     category = '',
     type = '',
     event = '',
@@ -48,6 +49,7 @@ const pushFault = async (
   }
 
   const activityLog = {
+    deviceId,
     category,
     type,
     event,
@@ -81,13 +83,14 @@ const saveFaultData = async (faultList = []) => {
         (mapper) => mapper.fault_code === faultData.fault_code
       );
       const faultPayload = {
+        deviceId: faultData.dev_id.toString(),
         category: faultCategories.LOGGER_FAULT,
         type: faultData.fault_level === '' ? alertTypes.ERROR: alertTypes.WARNING,
         event: faultEvents.DEVICES,
         position: faultData.dev_id,
-        description: fault_I18n[faultI18n.fault_name_i18nKey] || '',
-        reason: fault_I18n[faultI18n.fault_reason_i18nKey] || '',
-        suggest: fault_I18n[faultI18n.fault_suggest_i18nKey] || '',
+        description: i18n[faultI18n.fault_name_i18nKey] || '',
+        reason: i18n[faultI18n.fault_reason_i18nKey] || '',
+        suggest: i18n[faultI18n.fault_suggest_i18nKey] || '',
         faultData
       }
       await pushFault(faultPayload)
@@ -99,6 +102,7 @@ const saveFaultData = async (faultList = []) => {
 
 const error = async (
   {
+    deviceId = '',
     category = '',
     event = '',
     position = 0,
@@ -107,11 +111,12 @@ const error = async (
     suggest = '',
     faultData = {}
   } = {}) => {
-  await pushFault({ category, type: alertTypes.ERROR, event, position, description, reason, suggest, faultData })
+  await pushFault({ deviceId, category, type: alertTypes.ERROR, event, position, description, reason, suggest, faultData })
 }
 
 const warning = async (
   {
+    deviceId = '',
     category = '',
     event = '',
     position = 0,
@@ -120,7 +125,7 @@ const warning = async (
     suggest = '',
     faultData = {}
   } = {}) => {
-  await pushFault({ category, type: alertTypes.WARNING, event, position, description, reason, suggest, faultData })
+  await pushFault({ deviceId, category, type: alertTypes.WARNING, event, position, description, reason, suggest, faultData })
 }
 
 const clearData = async (beforeDatetime) => {
