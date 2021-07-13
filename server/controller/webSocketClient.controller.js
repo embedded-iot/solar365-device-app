@@ -1,9 +1,10 @@
 const WebSocketClient = require('websocket').client;
 const { cui } = require('../utils');
 const { connectPayload, actionTypes, deviceListPayload, deviceLogPayload, deviceLogIOPayload, statisticsPayload,
-  faultPayload, statisticDeviceDetailsPayload, deviceInfoPayload, activityLogCategories  } = require('../middlewares/master');
+  faultPayload, statisticDeviceDetailsPayload, deviceInfoPayload, activityLogCategories, faultCategories,
+  faultEvents } = require('../middlewares/master');
 const { deviceService, deviceLogService, statisticsService,
-  faultService, aboutService, configService, activityLogService, masterService } = require('../service');
+  faultService, aboutService, configService, activityLogService, masterService, settingsService } = require('../service');
 const { delay } = require("../utils");
 
 const i18n = require('../config/i18n');
@@ -79,6 +80,7 @@ const controller = async (response) => {
         deviceLogIOData.listIO = deviceLogIOData.listIO ? [...deviceLogIOData.listIO] : []
         deviceLogIOData.listIO.push(response.result_data);
         await deviceLogService.saveDeviceLogData(deviceLogIOData);
+        await validateDeviceLog(response.result_data);
         break;
       case actionTypes.FAULT:
         await faultService.saveFaultData(response.result_data && response.result_data.list || []);
@@ -105,6 +107,80 @@ const controller = async (response) => {
     console.log("[Invalid Response]", JSON.stringify(response));
   }
 };
+
+const checkMissingString = async (stringList = [], selectedDeviceSettings = {}) => {
+  const { firstDirection = [], secondDirection = [] } = selectedDeviceSettings;
+  const usedStrings = [...firstDirection, ...secondDirection];
+  for (let i = 0; i < stringList.length; i++ ) {
+    const string = stringList[i];
+    const position = string.name.split(' ')[1];
+    if (usedStrings.includes(Number(position)) && (string.voltage * string.current) === 0) {
+      await faultService.error({
+        deviceId: selectedDeviceSettings.deviceId.toString(),
+        category: faultCategories.SOLAR365_FAULT,
+        event: faultEvents.STRING,
+        position: Number(position),
+        description: string.name + i18n.STRING_IS_NOT_CONNECTED,
+        reason: i18n.MISSING_STRING_REASON,
+        suggest: i18n.MISSING_STRING_SUGGEST
+      });
+    }
+  }
+}
+
+const checkStringPower = async (stringList = [], selectedDeviceSettings = {}) => {
+  const { firstDirection = [], secondDirection = [] } = selectedDeviceSettings;
+  let firstDirectionPowerTotal = 0;
+  let secondDirectionPowerTotal = 0;
+  for (let i = 0; i < stringList.length; i++ ) {
+    const string = stringList[i];
+    string.position = string.name.split(' ')[1];
+    stringList.power = string.voltage * string.current;
+    if (firstDirection.includes(Number(string.position))) {
+      firstDirectionPowerTotal += stringList.power;
+    } else if (secondDirection.includes(Number(string.position))) {
+      secondDirectionPowerTotal += stringList.power;
+    }
+  }
+  const averageFirstDirectionPower = firstDirectionPowerTotal / ( firstDirection.firstDirection || 1 );
+  const averageSecondDirectionPower = secondDirectionPowerTotal / ( secondDirection.firstDirection || 1 );
+  for (let i = 0; i < stringList.length; i++ ) {
+    const string = stringList[i];
+    let stringError = false;
+    if (firstDirection.includes(Number(string.position))
+      && stringList.power > 0
+      && (Math.abs(stringList.power - averageFirstDirectionPower) * 100 / averageFirstDirectionPower ) > 10) {
+      stringError = true;
+    } else if (firstDirection.includes(Number(string.position))
+      && stringList.power > 0
+      && (Math.abs(stringList.power - averageSecondDirectionPower) * 100 / averageFirstDirectionPower ) > 10) {
+      stringError = true;
+    }
+    if (stringError) {
+      await faultService.error({
+        deviceId: selectedDeviceSettings.deviceId.toString(),
+        category: faultCategories.SOLAR365_FAULT,
+        event: faultEvents.STRING,
+        position: Number(string.position),
+        description: string.name + i18n.LOW_STRING_POWER_DESCRIPTION,
+        reason: i18n.LOW_STRING_POWER_REASON,
+        suggest: i18n.LOW_STRING_POWER_SUGGEST
+      });
+    }
+  }
+}
+
+const validateDeviceLog = async (deviceLogIO) => {
+  const settingsData = await settingsService.getSettingsData();
+  const { list = [] } = settingsData || {};
+  if (list.length === 0) return;
+  const deviceId = deviceLogIO.deviceId;
+  const stringList = deviceLogIO.list.filter(item => item.name.indexOf('String') > 0);
+  const selectedDeviceSettings = list.find(deviceSetting => deviceSetting.deviceId === deviceId)
+  if (!!selectedDeviceSettings) return;
+  await checkMissingString(stringList, selectedDeviceSettings);
+  await checkStringPower(stringList, selectedDeviceSettings);
+}
 
 const getDeviceInfo = async (deviceList) => {
   const CONFIG_DATA = await configService.getConfigData();
