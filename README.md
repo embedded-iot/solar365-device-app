@@ -7,3 +7,4 @@ To start the client, in client directory:
 
 1. Do `npm install`
 2. Run `npm start`
+3. Test

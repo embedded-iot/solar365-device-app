@@ -7,7 +7,7 @@ const globalConfig = require('./config/global');
 const { delay } = require('./utils');
 
 let connectCount = 0;
-
+console.log("test")
 const masterConnect = async () => {
   const CONFIG_DATA = await configService.getConfigData();
   if (!CONFIG_DATA.MASTER_IP || connectCount >= 2) {
